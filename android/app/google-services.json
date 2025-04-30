@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "632680854741",
+    "project_id": "wedlist-935f0",
+    "storage_bucket": "wedlist-935f0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:632680854741:android:ef21c9c3f27c718d065e5c",
+        "android_client_info": {
+          "package_name": "com.example.wedlist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPkzmLHn_TH8xYqhjO-3G9F9qH_ajzHvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
