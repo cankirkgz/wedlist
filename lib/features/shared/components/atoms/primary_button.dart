@@ -10,6 +10,7 @@ class PrimaryButton extends StatelessWidget {
   final Color textColor;
   final Widget? widget;
   final bool hasShadow;
+  final bool hasBorder; // yeni eklendi
 
   const PrimaryButton({
     super.key,
@@ -19,6 +20,7 @@ class PrimaryButton extends StatelessWidget {
     this.textColor = AppColors.white,
     this.widget,
     this.hasShadow = true,
+    this.hasBorder = false, // varsayılan olarak border yok
   });
 
   @override
@@ -26,26 +28,32 @@ class PrimaryButton extends StatelessWidget {
     return Container(
       height: AppSizes.heightXl,
       width: double.infinity,
-      decoration: hasShadow
-          ? BoxDecoration(
-              boxShadow: [
+      decoration: BoxDecoration(
+        boxShadow: hasShadow
+            ? [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
                   offset: const Offset(0, 4),
                   blurRadius: 10,
                 ),
-              ],
-              borderRadius: BorderRadius.circular(AppSizes.radiusLg),
-            )
-          : null,
+              ]
+            : null,
+        borderRadius: BorderRadius.circular(AppSizes.radiusLg),
+      ),
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: textColor,
-          elevation: 0, // shadow varsa Container kullanıyor
+          elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.radiusLg),
+            side: hasBorder
+                ? const BorderSide(
+                    color: AppColors.borderGrey,
+                    width: AppSizes.borderWidthLg,
+                  )
+                : BorderSide.none,
           ),
           padding: const EdgeInsets.symmetric(
             horizontal: AppSizes.paddingLg,
