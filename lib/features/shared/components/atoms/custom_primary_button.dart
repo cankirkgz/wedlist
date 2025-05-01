@@ -3,16 +3,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 
-class PrimaryButton extends StatelessWidget {
+class CustomPrimaryButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final Color color;
   final Color textColor;
   final Widget? widget;
   final bool hasShadow;
-  final bool hasBorder; // yeni eklendi
+  final bool hasBorder;
+  final bool isLoading;
 
-  const PrimaryButton({
+  const CustomPrimaryButton({
     super.key,
     required this.text,
     required this.onTap,
@@ -20,7 +21,8 @@ class PrimaryButton extends StatelessWidget {
     this.textColor = AppColors.white,
     this.widget,
     this.hasShadow = true,
-    this.hasBorder = false, // varsayılan olarak border yok
+    this.hasBorder = false,
+    this.isLoading = false,
   });
 
   @override
@@ -41,7 +43,7 @@ class PrimaryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusLg),
       ),
       child: ElevatedButton(
-        onPressed: onTap,
+        onPressed: isLoading ? null : onTap, // disable during loading
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: textColor,
@@ -55,19 +57,20 @@ class PrimaryButton extends StatelessWidget {
                   )
                 : BorderSide.none,
           ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSizes.paddingLg,
-            vertical: AppSizes.paddingSm,
-          ),
         ),
-        child: widget ??
-            Text(
-              text,
-              style: GoogleFonts.roboto(
-                fontWeight: AppSizes.weightBold,
-                fontSize: AppSizes.fontXl,
-              ),
-            ),
+        child: isLoading
+            ? const CircularProgressIndicator(
+                color: AppColors.primary,
+                strokeWidth: 2.5,
+              )
+            : widget ??
+                Text(
+                  text,
+                  style: GoogleFonts.roboto(
+                    fontWeight: AppSizes.weightBold,
+                    fontSize: AppSizes.fontXl,
+                  ),
+                ),
       ),
     );
   }

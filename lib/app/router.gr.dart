@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddEditItemScreen(),
       );
     },
+    AuthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AuthScreen(),
+      );
+    },
     ChecklistRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -31,6 +37,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const CreateRoomScreen(),
+      );
+    },
+    ForgotPasswordRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ForgotPasswordScreen(),
       );
     },
     JoinRoomRoute.name: (routeData) {
@@ -69,6 +81,20 @@ class AddEditItemRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AuthScreen]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [ChecklistScreen]
 class ChecklistRoute extends PageRouteInfo<void> {
   const ChecklistRoute({List<PageRouteInfo>? children})
@@ -92,6 +118,20 @@ class CreateRoomRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CreateRoomRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ForgotPasswordScreen]
+class ForgotPasswordRoute extends PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<PageRouteInfo>? children})
+      : super(
+          ForgotPasswordRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ForgotPasswordRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -1,9 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:wedlist/features/shared/components/atoms/clickable_text.dart';
+import 'package:wedlist/app/router.dart';
+import 'firebase_options.dart'; // ✅ BU SATIRI EKLEDİK
 
-void main() {
-  runApp(const MyApp());
+final _appRouter = AppRouter();
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Firebase için zorunlu
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions
+        .currentPlatform, // CLI tarafından oluşturulan yapı
+  );
+  runApp(const ProviderScope(child: MyApp())); // Riverpod kullanımı
 }
 
 class MyApp extends StatelessWidget {
@@ -11,29 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+      builder: (context, child) => child!,
       title: 'Flutter Font Demo',
       theme: ThemeData(
         textTheme: GoogleFonts.robotoTextTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-      ),
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ana Sayfa'),
-      ),
-      body: Center(
-        child: ClickableText(text: "Şifremi Unuttum", onTap: () {}),
       ),
     );
   }

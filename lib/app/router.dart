@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:wedlist/features/auth/view/auth_screen.dart';
+import 'package:wedlist/features/auth/view/forgot_password_screen.dart';
 import 'package:wedlist/features/auth/view/welcome_screen.dart';
 import 'package:wedlist/features/auth/view/create_room_screen.dart';
 import 'package:wedlist/features/auth/view/join_room_screen.dart';
@@ -12,7 +14,9 @@ part 'router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: WelcomeRoute.page, initial: true),
+        AutoRoute(page: AuthRoute.page, initial: true),
+        AutoRoute(page: ForgotPasswordRoute.page),
+        AutoRoute(page: WelcomeRoute.page),
         AutoRoute(page: CreateRoomRoute.page),
         AutoRoute(page: JoinRoomRoute.page),
         AutoRoute(page: ChecklistRoute.page),
