@@ -19,10 +19,10 @@ class AppSizes {
   static const FontWeight weightExtraBold = FontWeight.w800;
 
   // Border Radius
-  static const double radiusSm = 4.0;
-  static const double radiusMd = 8.0;
-  static const double radiusLg = 16.0;
-  static const double radiusXl = 24.0;
+  static const double radiusSm = 6.0;
+  static const double radiusMd = 10.0;
+  static const double radiusLg = 14.0;
+  static const double radiusXl = 20.0;
   static const double radiusCircle = 999.0;
 
   // Border with
