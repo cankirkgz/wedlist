@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wedlist/features/shared/components/atoms/clickable_text.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,8 +32,8 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Ana Sayfa'),
       ),
-      body: const Center(
-        child: Text("Merhaba"),
+      body: Center(
+        child: ClickableText(text: "Şifremi Unuttum", onTap: () {}),
       ),
     );
   }

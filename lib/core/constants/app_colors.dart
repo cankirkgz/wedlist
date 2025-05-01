@@ -5,4 +5,5 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF);
   static const Color hintGrey = Color(0xFFADAEBC);
   static const Color borderGrey = Color(0xFFE5E7EB);
+  static const Color primary = Color(0xFFF43F5E);
 }
