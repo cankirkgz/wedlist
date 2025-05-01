@@ -25,12 +25,17 @@ class AppSizes {
   static const double radiusXl = 24.0;
   static const double radiusCircle = 999.0;
 
+  // Border with
+  static const double borderWidthMd = 1.0;
+  static const double borderWidthLg = 2.0;
+
   // Padding
   static const double paddingXs = 4.0;
   static const double paddingSm = 8.0;
   static const double paddingMd = 16.0;
-  static const double paddingLg = 24.0;
-  static const double paddingXl = 32.0;
+  static const double paddingLg = 20.0;
+  static const double paddingXl = 24.0;
+  static const double paddingXxl = 32.0;
 
   // Symmetric Padding Helpers
   static const EdgeInsets horizontalPaddingSm =
@@ -64,4 +69,20 @@ class AppSizes {
   static const double elevationLow = 2.0;
   static const double elevationMed = 4.0;
   static const double elevationHigh = 8.0;
+
+  // Heights
+  static const double heightXs = 32.0;
+  static const double heightSm = 40.0;
+  static const double heightMd = 48.0;
+  static const double heightLg = 56.0;
+  static const double heightXl = 64.0;
+  static const double heightXxl = 80.0;
+
+  // Widths
+  static const double widthXs = 32.0;
+  static const double widthSm = 40.0;
+  static const double widthMd = 48.0;
+  static const double widthLg = 56.0;
+  static const double widthXl = 64.0;
+  static const double widthXxl = 80.0;
 }
