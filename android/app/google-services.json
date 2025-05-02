@@ -12,7 +12,20 @@
           "package_name": "com.example.wedlist"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "632680854741-86kqvoqa8begkkptpl80gvmsk1s27nrj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wedlist",
+            "certificate_hash": "e5628214085c5f43eb9cff6557e755ecafcfffe5"
+          }
+        },
+        {
+          "client_id": "632680854741-9di9q1kmd5ctrha2igokhuk4h8lma6i5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBPkzmLHn_TH8xYqhjO-3G9F9qH_ajzHvU"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "632680854741-9di9q1kmd5ctrha2igokhuk4h8lma6i5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "632680854741-8jhijd0avpo6j1sr96ppbvaffhutq25f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.wedlist"
+              }
+            }
+          ]
         }
       }
     }

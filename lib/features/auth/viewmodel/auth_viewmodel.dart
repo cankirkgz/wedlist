@@ -113,4 +113,40 @@ class AuthViewModel extends StateNotifier<AuthState> {
       print("Checklist'e gidildi");
     }
   }
+
+  Future<UserModel?> signInWithGoogle(BuildContext context) async {
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final credential = await _authService.signInWithGoogle();
+      if (credential == null) {
+        state = state.copyWith(isLoading: false);
+        return null;
+      }
+
+      final user = credential.user!;
+      final userId = user.uid;
+
+      // 🔎 Firestore'da kullanıcı var mı kontrol et
+      UserModel? userModel = await _firestoreService.getUser(userId);
+
+      // ❗ Yoksa kaydet
+      if (userModel == null) {
+        userModel = UserModel(
+          email: user.email ?? '',
+          name: user.displayName ?? '',
+          createdAt: DateTime.now(),
+          roomId: null,
+        );
+        await _firestoreService.createUser(userId: userId, user: userModel);
+      }
+
+      state = state.copyWith(user: userModel, isLoading: false);
+      await handlePostLoginRouting(context);
+      return userModel;
+    } on FirebaseAuthException catch (e) {
+      state = state.copyWith(isLoading: false, error: e.message);
+      return null;
+    }
+  }
 }

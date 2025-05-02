@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,7 +14,7 @@ class AuthService {
       password: password,
     );
 
-    await credential.user?.sendEmailVerification(); // Doğrulama maili gönder
+    await credential.user?.sendEmailVerification();
 
     return credential;
   }
@@ -52,4 +53,25 @@ class AuthService {
 
   // 📡 Kullanıcı oturum dinleyicisi
   Stream<User?> get authStateChanges => _auth.authStateChanges();
+
+  // 🔁 🔒 GOOGLE İLE GİRİŞ
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return null; // Kullanıcı işlemi iptal etti
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      return await _auth.signInWithCredential(credential);
+    } catch (e) {
+      print('Google ile giriş hatası: $e');
+      return null;
+    }
+  }
 }

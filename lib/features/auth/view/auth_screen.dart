@@ -154,8 +154,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       ),
                     ],
                   ),
-                  onTap: () {
-                    // Google Auth entegrasyonu burada yapılacak
+                  onTap: () async {
+                    final user = await authVM.signInWithGoogle(context);
+                    if (user == null && authState.error != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(authState.error!)),
+                      );
+                    }
                   },
                 ),
               ],
