@@ -28,9 +28,16 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ChecklistRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ChecklistRouteArgs>(
+          orElse: () =>
+              ChecklistRouteArgs(roomId: pathParams.getString('roomId')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ChecklistScreen(),
+        child: ChecklistScreen(
+          key: args.key,
+          roomId: args.roomId,
+        ),
       );
     },
     CreateRoomRoute.name: (routeData) {
@@ -49,6 +56,16 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const JoinRoomScreen(),
+      );
+    },
+    RoomCreatedRoute.name: (routeData) {
+      final args = routeData.argsAs<RoomCreatedRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: RoomCreatedScreen(
+          key: args.key,
+          roomId: args.roomId,
+        ),
       );
     },
     SettingsRoute.name: (routeData) {
@@ -96,16 +113,41 @@ class AuthRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [ChecklistScreen]
-class ChecklistRoute extends PageRouteInfo<void> {
-  const ChecklistRoute({List<PageRouteInfo>? children})
-      : super(
+class ChecklistRoute extends PageRouteInfo<ChecklistRouteArgs> {
+  ChecklistRoute({
+    Key? key,
+    required String roomId,
+    List<PageRouteInfo>? children,
+  }) : super(
           ChecklistRoute.name,
+          args: ChecklistRouteArgs(
+            key: key,
+            roomId: roomId,
+          ),
+          rawPathParams: {'roomId': roomId},
           initialChildren: children,
         );
 
   static const String name = 'ChecklistRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<ChecklistRouteArgs> page =
+      PageInfo<ChecklistRouteArgs>(name);
+}
+
+class ChecklistRouteArgs {
+  const ChecklistRouteArgs({
+    this.key,
+    required this.roomId,
+  });
+
+  final Key? key;
+
+  final String roomId;
+
+  @override
+  String toString() {
+    return 'ChecklistRouteArgs{key: $key, roomId: $roomId}';
+  }
 }
 
 /// generated route for
@@ -148,6 +190,44 @@ class JoinRoomRoute extends PageRouteInfo<void> {
   static const String name = 'JoinRoomRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RoomCreatedScreen]
+class RoomCreatedRoute extends PageRouteInfo<RoomCreatedRouteArgs> {
+  RoomCreatedRoute({
+    Key? key,
+    required String roomId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          RoomCreatedRoute.name,
+          args: RoomCreatedRouteArgs(
+            key: key,
+            roomId: roomId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'RoomCreatedRoute';
+
+  static const PageInfo<RoomCreatedRouteArgs> page =
+      PageInfo<RoomCreatedRouteArgs>(name);
+}
+
+class RoomCreatedRouteArgs {
+  const RoomCreatedRouteArgs({
+    this.key,
+    required this.roomId,
+  });
+
+  final Key? key;
+
+  final String roomId;
+
+  @override
+  String toString() {
+    return 'RoomCreatedRouteArgs{key: $key, roomId: $roomId}';
+  }
 }
 
 /// generated route for

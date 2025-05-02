@@ -61,6 +61,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
               children: [
                 const AppTitleText(text: 'WedList'),
                 const SizedBox(height: AppSizes.paddingXxl),
+
+                // 🔘 Toggle Login / Signup
                 ValueListenableBuilder<int>(
                   valueListenable: selectedIndex,
                   builder: (_, value, __) => AnimatedToggleTab(
@@ -69,6 +71,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   ),
                 ),
                 const SizedBox(height: AppSizes.paddingXxl),
+
+                // 🔐 Login / Signup form
                 ValueListenableBuilder<int>(
                   valueListenable: selectedIndex,
                   builder: (_, value, __) {
@@ -83,10 +87,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           final user = await authVM.signIn(
                             emailController.text.trim(),
                             passwordController.text.trim(),
+                            context,
                           );
 
                           if (user != null) {
-                            context.router.replace(const WelcomeRoute());
+                            await authVM.handlePostLoginRouting(
+                                context); // 🔁 yönlendirme burada
                           } else if (authState.error != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(authState.error!)),
@@ -105,10 +111,12 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             emailController.text.trim(),
                             passwordController.text.trim(),
                             nameController.text.trim(),
+                            context,
                           );
 
                           if (user != null) {
-                            context.router.replace(const WelcomeRoute());
+                            await authVM.handlePostLoginRouting(
+                                context); // 🔁 yönlendirme burada
                           } else if (authState.error != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(authState.error!)),
@@ -120,8 +128,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   },
                 ),
                 const SizedBox(height: AppSizes.paddingXxl),
+
                 const OrDivider(),
                 const SizedBox(height: AppSizes.paddingXxl),
+
                 CustomPrimaryButton(
                   text: "Google ile devam et",
                   color: AppColors.white,
@@ -136,7 +146,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       const SizedBox(width: AppSizes.paddingSm),
                       Text(
                         "Google ile Devam Et",
-                        style: GoogleFonts.roboto(
+                        style: GoogleFonts.inter(
                           color: AppColors.textBlack,
                           fontSize: AppSizes.fontXl,
                           fontWeight: AppSizes.weightBold,
@@ -145,7 +155,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     ],
                   ),
                   onTap: () {
-                    // Google OAuth akışı
+                    // Google Auth entegrasyonu burada yapılacak
                   },
                 ),
               ],

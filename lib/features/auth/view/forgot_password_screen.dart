@@ -54,7 +54,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                         const SizedBox(width: AppSizes.paddingSm),
                         Text(
                           "Giriş Yap Sayfasına Dön",
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.inter(
                             fontSize: AppSizes.fontLg,
                             color: AppColors.textBlack,
                           ),
@@ -66,7 +66,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                 const SizedBox(height: AppSizes.paddingLg),
                 Text(
                   "Parolanı Yenile",
-                  style: GoogleFonts.roboto(
+                  style: GoogleFonts.inter(
                     fontSize: AppSizes.fontHuge,
                     fontWeight: AppSizes.weightBold,
                     color: AppColors.textBlack,
@@ -75,7 +75,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                 const SizedBox(height: AppSizes.paddingXs),
                 Text(
                   "E-posta adresinizi girin, şifrenizi sıfırlamak için talimatları size gönderelim.",
-                  style: GoogleFonts.roboto(
+                  style: GoogleFonts.inter(
                     fontSize: AppSizes.fontLg,
                     color: AppColors.textBlack,
                   ),

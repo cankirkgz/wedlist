@@ -4,7 +4,7 @@ import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 
 class CustomPrimaryButton extends StatelessWidget {
-  final String text;
+  final String? text;
   final VoidCallback onTap;
   final Color color;
   final Color textColor;
@@ -12,10 +12,11 @@ class CustomPrimaryButton extends StatelessWidget {
   final bool hasShadow;
   final bool hasBorder;
   final bool isLoading;
+  final Color? borderColor;
 
   const CustomPrimaryButton({
     super.key,
-    required this.text,
+    this.text,
     required this.onTap,
     this.color = AppColors.primary,
     this.textColor = AppColors.white,
@@ -23,7 +24,11 @@ class CustomPrimaryButton extends StatelessWidget {
     this.hasShadow = true,
     this.hasBorder = false,
     this.isLoading = false,
-  });
+    this.borderColor,
+  }) : assert(
+          text != null || widget != null,
+          'Either text or widget must be provided.',
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class CustomPrimaryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusLg),
       ),
       child: ElevatedButton(
-        onPressed: isLoading ? null : onTap, // disable during loading
+        onPressed: isLoading ? null : onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: textColor,
@@ -51,8 +56,8 @@ class CustomPrimaryButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.radiusLg),
             side: hasBorder
-                ? const BorderSide(
-                    color: AppColors.borderGrey,
+                ? BorderSide(
+                    color: borderColor ?? AppColors.borderGrey,
                     width: AppSizes.borderWidthLg,
                   )
                 : BorderSide.none,
@@ -65,8 +70,8 @@ class CustomPrimaryButton extends StatelessWidget {
               )
             : widget ??
                 Text(
-                  text,
-                  style: GoogleFonts.roboto(
+                  text!,
+                  style: GoogleFonts.inter(
                     fontWeight: AppSizes.weightBold,
                     fontSize: AppSizes.fontXl,
                   ),

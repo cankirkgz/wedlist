@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wedlist/features/auth/model/user_model.dart';
+import 'package:wedlist/features/room/model/room_model.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -40,6 +41,37 @@ class FirestoreService {
       return snapshot.docs
           .map((doc) => UserModel.fromJson(doc.data()))
           .toList();
+    });
+  }
+
+  // Oda oluşturma
+  Future<DocumentReference> createRoom(RoomModel room, String roomCode) {
+    final docRef = FirebaseFirestore.instance.collection('rooms').doc(roomCode);
+    return docRef.set(room.toJson()).then((_) => docRef);
+  }
+
+  Future<DocumentSnapshot?> getRoomByCode(String code) async {
+    final snapshot = await _firestore
+        .collection('rooms')
+        .where(FieldPath.documentId, isEqualTo: code)
+        .limit(1)
+        .get();
+    return snapshot.docs.isEmpty ? null : snapshot.docs.first;
+  }
+
+  Future<void> addUserToRoom(String roomId, String userId) async {
+    await _firestore.collection('rooms').doc(roomId).update({
+      'participants': FieldValue.arrayUnion([userId])
+    });
+  }
+
+  Future<void> joinRoom(String roomCode, String userId) async {
+    await _firestore.collection('rooms').doc(roomCode).update({
+      'participants': FieldValue.arrayUnion([userId]),
+    });
+
+    await _firestore.collection('users').doc(userId).update({
+      'roomId': roomCode,
     });
   }
 }

@@ -29,7 +29,7 @@ class LabeledTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: GoogleFonts.roboto(
+          style: GoogleFonts.inter(
             fontSize: AppSizes.fontLg,
             fontWeight: FontWeight.w500,
             color: AppColors.textBlack,

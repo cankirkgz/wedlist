@@ -16,7 +16,7 @@ class AppTitleText extends StatelessWidget {
             onTap: () {}, child: Image.asset('assets/icons/info.png')),
         Text(
           text,
-          style: GoogleFonts.roboto(
+          style: GoogleFonts.inter(
             fontSize: AppSizes.fontHuge,
             fontWeight: AppSizes.weightExtraBold,
             color: AppColors.textBlack,

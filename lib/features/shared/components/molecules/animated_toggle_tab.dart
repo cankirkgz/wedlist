@@ -52,7 +52,7 @@ class _AnimatedToggleTabState extends State<AnimatedToggleTab> {
                   child: Center(
                     child: Text(
                       'Login',
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.inter(
                         color: widget.selectedIndex == 0
                             ? AppColors.primaryText
                             : AppColors.softPrimaryText,
@@ -70,7 +70,7 @@ class _AnimatedToggleTabState extends State<AnimatedToggleTab> {
                   child: Center(
                     child: Text(
                       'Sign Up',
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.inter(
                         color: widget.selectedIndex == 1
                             ? AppColors.primaryText
                             : AppColors.softPrimaryText,

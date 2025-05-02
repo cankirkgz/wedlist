@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wedlist/app/router.dart';
-import 'firebase_options.dart'; // ✅ BU SATIRI EKLEDİK
+import 'firebase_options.dart';
 
 final _appRouter = AppRouter();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Firebase için zorunlu
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions
-        .currentPlatform, // CLI tarafından oluşturulan yapı
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ProviderScope(child: MyApp())); // Riverpod kullanımı
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => child!,
       title: 'Flutter Font Demo',
       theme: ThemeData(
-        textTheme: GoogleFonts.robotoTextTheme(),
+        textTheme: GoogleFonts.interTextTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

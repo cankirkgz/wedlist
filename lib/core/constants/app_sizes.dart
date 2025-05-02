@@ -28,6 +28,7 @@ class AppSizes {
   // Border with
   static const double borderWidthMd = 1.0;
   static const double borderWidthLg = 2.0;
+  static const double borderWidthXl = 3.0;
 
   // Padding
   static const double paddingXs = 4.0;
@@ -36,6 +37,7 @@ class AppSizes {
   static const double paddingLg = 20.0;
   static const double paddingXl = 24.0;
   static const double paddingXxl = 32.0;
+  static const double paddingHuge = 64.0;
 
   // Symmetric Padding Helpers
   static const EdgeInsets horizontalPaddingSm =
@@ -85,4 +87,24 @@ class AppSizes {
   static const double widthLg = 56.0;
   static const double widthXl = 64.0;
   static const double widthXxl = 80.0;
+
+  // Image Sizes
+  static const double imageSizeXs = 40.0;
+  static const double imageSizeSm = 64.0;
+  static const double imageSizeMd = 100.0;
+  static const double imageSizeLg = 160.0;
+  static const double imageSizeXl = 240.0;
+
+  // Letter Spacing
+  static const double letterSpacingXs = 2.0;
+  static const double letterSpacingSm = 4.0;
+  static const double letterSpacingMD = 6.0;
+  static const double letterSpacingLg = 8.0;
+  static const double letterSpacingXl = 10.0;
+
+  // Icon Sizes
+  static const double iconSizeSm = 16.0;
+  static const double iconSizeMd = 24.0;
+  static const double iconSizeLg = 32.0;
+  static const double iconSizeXl = 48.0;
 }
