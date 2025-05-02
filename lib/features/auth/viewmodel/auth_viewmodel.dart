@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wedlist/data/services/auth_service.dart';
+import 'package:wedlist/data/services/firestore_service.dart';
 import 'package:wedlist/features/auth/model/user_model.dart';
 
 class AuthState {
@@ -29,6 +30,7 @@ class AuthState {
 
 class AuthViewModel extends StateNotifier<AuthState> {
   final AuthService _authService = AuthService();
+  final FirestoreService _firestoreService = FirestoreService();
 
   AuthViewModel() : super(AuthState());
 
@@ -60,13 +62,13 @@ class AuthViewModel extends StateNotifier<AuthState> {
         email: email,
         password: password,
       );
-
+      final userId = credential.user!.uid;
       final userModel = UserModel(
         email: email,
         name: name,
         createdAt: DateTime.now(),
       );
-
+      await _firestoreService.createUser(userId: userId, user: userModel);
       state = state.copyWith(user: userModel, isLoading: false);
       return userModel;
     } on FirebaseAuthException catch (e) {
