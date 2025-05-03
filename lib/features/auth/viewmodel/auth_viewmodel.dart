@@ -104,12 +104,11 @@ class AuthViewModel extends StateNotifier<AuthState> {
 
     final user = await _firestoreService.getUser(userId);
     if (user == null) return;
-
     if (user.roomId == null || user.roomId!.isEmpty) {
-      context.router.replace(const WelcomeRoute());
+      context.router.replaceAll([const WelcomeRoute()]);
       print("Welcome'a gidildi");
     } else {
-      context.router.replace(ChecklistRoute(roomId: user.roomId!));
+      context.router.replaceAll([ChecklistRoute(roomId: user.roomId!)]);
       print("Checklist'e gidildi");
     }
   }
