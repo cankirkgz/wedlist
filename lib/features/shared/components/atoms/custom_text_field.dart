@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final TextInputType keyboardType;
 
   const CustomTextField({
     super.key,
@@ -16,6 +17,7 @@ class CustomTextField extends StatefulWidget {
     this.isPassword = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -32,7 +34,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.isPassword ? _obscureText : false,
       keyboardType: widget.isPassword
           ? TextInputType.visiblePassword
-          : TextInputType.emailAddress,
+          : widget.keyboardType,
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: const TextStyle(color: AppColors.hintGrey),
@@ -45,17 +47,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),
           borderSide: const BorderSide(
-              color: AppColors.borderGrey, width: AppSizes.borderWidthLg),
+            color: AppColors.borderGrey,
+            width: AppSizes.borderWidthLg,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),
           borderSide: const BorderSide(
-              color: AppColors.borderGrey, width: AppSizes.borderWidthLg),
+            color: AppColors.borderGrey,
+            width: AppSizes.borderWidthLg,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),
           borderSide: const BorderSide(
-              color: AppColors.borderGrey, width: AppSizes.borderWidthLg),
+            color: AppColors.borderGrey,
+            width: AppSizes.borderWidthLg,
+          ),
         ),
         prefixIcon: widget.prefixIcon != null
             ? Icon(widget.prefixIcon, color: AppColors.hintGrey)

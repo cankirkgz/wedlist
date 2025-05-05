@@ -9,6 +9,7 @@ import 'package:wedlist/features/checklist/view/add_edit_item_screen.dart';
 import 'package:wedlist/features/room/view/join_room_screen.dart';
 import 'package:wedlist/features/room/view/room_created_screen.dart';
 import 'package:wedlist/features/settings/view/settings_screen.dart';
+import 'package:wedlist/features/shared/view/splash_screen.dart';
 
 part 'router.gr.dart';
 
@@ -16,12 +17,12 @@ part 'router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: AuthRoute.page, initial: true),
+        AutoRoute(page: SplashRoute.page, initial: true),
+        AutoRoute(page: AuthRoute.page),
         AutoRoute(page: ForgotPasswordRoute.page),
         AutoRoute(page: WelcomeRoute.page),
         AutoRoute(page: RoomCreatedRoute.page),
         AutoRoute(page: JoinRoomRoute.page),
-        AutoRoute(page: WelcomeRoute.page),
         AutoRoute(page: CreateRoomRoute.page),
         AutoRoute(page: ChecklistRoute.page),
         AutoRoute(page: AddEditItemRoute.page),

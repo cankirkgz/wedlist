@@ -115,8 +115,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           );
 
                           if (user != null) {
-                            await authVM.handlePostLoginRouting(
-                                context); // 🔁 yönlendirme burada
+                            await authVM.handlePostLoginRouting(context);
                           } else if (authState.error != null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(authState.error!)),

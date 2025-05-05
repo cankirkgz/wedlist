@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wedlist/features/auth/model/user_model.dart';
+import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 import 'package:wedlist/features/room/model/room_model.dart';
 
 class FirestoreService {
@@ -73,5 +74,13 @@ class FirestoreService {
     await _firestore.collection('users').doc(userId).update({
       'roomId': roomCode,
     });
+  }
+
+  Future<void> addItemToRoom(String roomId, ChecklistItem item) async {
+    await _firestore
+        .collection('rooms')
+        .doc(roomId)
+        .collection('items')
+        .add(item.toMap());
   }
 }

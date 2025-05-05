@@ -49,6 +49,8 @@ dependencies:
   lottie: ^3.3.1
   google_fonts: ^6.2.1
   google_sign_in: ^6.3.0
+  flutter_rating_bar: ^4.0.1
+  flutter_advanced_switch: ^3.1.0
 
 dev_dependencies:
   flutter_test:

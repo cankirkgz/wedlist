@@ -148,4 +148,17 @@ class AuthViewModel extends StateNotifier<AuthState> {
       return null;
     }
   }
+
+  Future<String?> fetchRoomId() async {
+    try {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId == null) return null;
+
+      final userModel = await _firestoreService.getUser(userId);
+      return userModel?.roomId;
+    } catch (e) {
+      print("fetchRoomId error: $e");
+      return null;
+    }
+  }
 }

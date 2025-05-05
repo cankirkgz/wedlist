@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ChecklistItem {
   final String id;
   final String name;
@@ -5,6 +7,8 @@ class ChecklistItem {
   final int priority;
   final double? price;
   final bool isChecked;
+  final String createdBy;
+  final DateTime createdAt;
 
   ChecklistItem({
     required this.id,
@@ -13,6 +17,8 @@ class ChecklistItem {
     required this.priority,
     this.price,
     required this.isChecked,
+    required this.createdBy,
+    required this.createdAt,
   });
 
   factory ChecklistItem.fromMap(String id, Map<String, dynamic> map) {
@@ -23,6 +29,8 @@ class ChecklistItem {
       priority: map['priority'] ?? 1,
       price: (map['price'] as num?)?.toDouble(),
       isChecked: map['isChecked'] ?? false,
+      createdBy: map['createdBy'] ?? '',
+      createdAt: (map['createdAt'] as Timestamp).toDate(),
     );
   }
 
@@ -33,6 +41,8 @@ class ChecklistItem {
       'priority': priority,
       'price': price,
       'isChecked': isChecked,
+      'createdBy': createdBy,
+      'createdAt': createdAt,
     };
   }
 }

@@ -11,6 +11,7 @@ class LabeledTextField extends StatelessWidget {
   final bool isPassword;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final TextInputType keyboardType;
 
   const LabeledTextField({
     super.key,
@@ -20,6 +21,7 @@ class LabeledTextField extends StatelessWidget {
     this.isPassword = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -42,6 +44,7 @@ class LabeledTextField extends StatelessWidget {
           isPassword: isPassword,
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
+          keyboardType: keyboardType,
         ),
       ],
     );
