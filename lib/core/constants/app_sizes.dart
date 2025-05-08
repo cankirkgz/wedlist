@@ -73,12 +73,15 @@ class AppSizes {
   static const double elevationHigh = 8.0;
 
   // Heights
+  static const double heightXxs = 20.0;
   static const double heightXs = 32.0;
   static const double heightSm = 40.0;
   static const double heightMd = 48.0;
   static const double heightLg = 56.0;
   static const double heightXl = 64.0;
   static const double heightXxl = 80.0;
+  static const double heightSemiHuge = 100.0;
+  static const double heightHuge = 160.0;
 
   // Widths
   static const double widthXs = 32.0;

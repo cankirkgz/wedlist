@@ -64,4 +64,18 @@ class RoomViewModel extends StateNotifier<RoomState> {
 
     return true;
   }
+
+  Future<RoomModel?> getCurrentUserRoom() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) return null;
+
+    // 1. Kullanıcının Firestore'daki verisini al
+    final userDoc = await _firestore.getUser(currentUser.uid);
+    final roomId = userDoc?.roomId;
+    if (roomId == null || roomId.isEmpty) return null;
+
+    // 2. Room verisini getir
+    final room = await _firestore.getRoomById(roomId);
+    return room;
+  }
 }

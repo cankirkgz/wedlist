@@ -26,11 +26,12 @@ class AddEditItemViewModel extends ChangeNotifier {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> saveItem(String roomId, String createdBy) async {
-    print("ROOM: " + roomId);
+  Future<void> saveItem(String roomId, String createdBy,
+      {String? existingItemId}) async {
     if (roomId.isEmpty) {
       throw Exception("Geçersiz oda kimliği (roomId).");
     }
+
     final name = nameController.text.trim();
     final double? price = double.tryParse(priceController.text.trim());
     final isPurchased = purchasedController.value;
@@ -40,21 +41,28 @@ class AddEditItemViewModel extends ChangeNotifier {
     }
 
     final ChecklistItem item = ChecklistItem(
-      id: '', // Firestore otomatik ID atayacak
+      id: existingItemId ?? '', // doc id yalnızca update'te kullanılıyor
       name: name,
       category: selectedCategory!,
-      priority: priority,
+      priority: priority.toInt(),
       price: price,
       isChecked: isPurchased,
       createdBy: createdBy,
       createdAt: DateTime.now(),
     );
 
-    await _firestore
+    final itemRef = FirebaseFirestore.instance
         .collection('rooms')
         .doc(roomId)
-        .collection('items')
-        .add(item.toMap());
+        .collection('items');
+
+    if (existingItemId != null) {
+      // 🔁 Güncelleme
+      await itemRef.doc(existingItemId).update(item.toMap());
+    } else {
+      // 🆕 Yeni ekleme
+      await itemRef.add(item.toMap());
+    }
   }
 
   void resetFields() {
@@ -72,5 +80,13 @@ class AddEditItemViewModel extends ChangeNotifier {
     priceController.dispose();
     purchasedController.dispose();
     super.dispose();
+  }
+
+  void populateFieldsFromItem(ChecklistItem item) {
+    nameController.text = item.name;
+    selectedCategory = item.category;
+    priority = item.priority;
+    priceController.text = item.price?.toString() ?? '';
+    purchasedController.value = item.isChecked;
   }
 }

@@ -83,4 +83,15 @@ class FirestoreService {
         .collection('items')
         .add(item.toMap());
   }
+
+  Future<RoomModel?> getRoomById(String roomId) async {
+    try {
+      final doc = await _firestore.collection('rooms').doc(roomId).get();
+      if (!doc.exists) return null;
+      return RoomModel.fromJson(doc.data()!, doc.id);
+    } catch (e) {
+      print('getRoomById error: $e');
+      return null;
+    }
+  }
 }

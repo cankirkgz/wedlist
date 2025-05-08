@@ -16,10 +16,16 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AddEditItemRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<AddEditItemRouteArgs>(
+          orElse: () =>
+              AddEditItemRouteArgs(roomId: pathParams.getString('roomId')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const AddEditItemScreen(
-          roomId: '',
+        child: AddEditItemScreen(
+          key: args.key,
+          roomId: args.roomId,
+          item: args.item,
         ),
       );
     },
@@ -93,16 +99,46 @@ abstract class _$AppRouter extends RootStackRouter {
 
 /// generated route for
 /// [AddEditItemScreen]
-class AddEditItemRoute extends PageRouteInfo<void> {
-  const AddEditItemRoute({List<PageRouteInfo>? children})
-      : super(
+class AddEditItemRoute extends PageRouteInfo<AddEditItemRouteArgs> {
+  AddEditItemRoute({
+    Key? key,
+    required String roomId,
+    ChecklistItem? item,
+    List<PageRouteInfo>? children,
+  }) : super(
           AddEditItemRoute.name,
+          args: AddEditItemRouteArgs(
+            key: key,
+            roomId: roomId,
+            item: item,
+          ),
+          rawPathParams: {'roomId': roomId},
           initialChildren: children,
         );
 
   static const String name = 'AddEditItemRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<AddEditItemRouteArgs> page =
+      PageInfo<AddEditItemRouteArgs>(name);
+}
+
+class AddEditItemRouteArgs {
+  const AddEditItemRouteArgs({
+    this.key,
+    required this.roomId,
+    this.item,
+  });
+
+  final Key? key;
+
+  final String roomId;
+
+  final ChecklistItem? item;
+
+  @override
+  String toString() {
+    return 'AddEditItemRouteArgs{key: $key, roomId: $roomId, item: $item}';
+  }
 }
 
 /// generated route for

@@ -7,6 +7,7 @@ import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/data/providers/add_edit_item_provider.dart';
 import 'package:wedlist/data/providers/auth_provider.dart';
+import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/atoms/labeled_switch.dart';
 import 'package:wedlist/features/shared/components/molecules/labeled_dropdown_field.dart';
@@ -16,8 +17,13 @@ import 'package:wedlist/features/shared/components/molecules/priority_rating_bar
 @RoutePage()
 class AddEditItemScreen extends ConsumerStatefulWidget {
   final String roomId;
-  const AddEditItemScreen(
-      {super.key, @PathParam('roomId') required this.roomId});
+  final ChecklistItem? item;
+
+  const AddEditItemScreen({
+    super.key,
+    @PathParam('roomId') required this.roomId,
+    this.item,
+  });
 
   @override
   ConsumerState<AddEditItemScreen> createState() => _AddEditItemScreenState();
@@ -28,7 +34,11 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      ref.read(addEditItemViewModelProvider).resetFields();
+      final viewModel = ref.read(addEditItemViewModelProvider);
+      viewModel.resetFields();
+      if (widget.item != null) {
+        viewModel.populateFieldsFromItem(widget.item!);
+      }
     });
   }
 
@@ -44,8 +54,11 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
 
     try {
       final roomId = await authViewModel.fetchRoomId();
-      print("LALA: " + widget.roomId);
-      await viewModel.saveItem(roomId ?? "", userId);
+      await viewModel.saveItem(
+        roomId ?? "",
+        userId,
+        existingItemId: widget.item?.id,
+      );
       context.router.back();
     } catch (e) {
       _showError(e.toString().replaceAll('Exception: ', ''));
@@ -68,7 +81,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Ürün Ekle",
+          widget.item == null ? "Ürün Ekle" : "Ürünü Düzenle",
           style: GoogleFonts.inter(
             fontWeight: AppSizes.weightBold,
             color: AppColors.textBlack,
@@ -96,7 +109,11 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                   label: "Kategori",
                   selectedValue: viewModel.selectedCategory,
                   items: viewModel.categoryList,
-                  onChanged: (value) => viewModel.selectedCategory = value,
+                  onChanged: (value) {
+                    setState(() {
+                      viewModel.selectedCategory = value;
+                    });
+                  },
                 ),
                 const SizedBox(height: AppSizes.paddingXl),
                 PriorityRatingBar(
