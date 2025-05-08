@@ -7,6 +7,7 @@ import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/atoms/screen_header.dart';
 import 'package:wedlist/features/shared/components/organisms/room_code_box.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class RoomCreatedScreen extends StatelessWidget {
@@ -16,6 +17,8 @@ class RoomCreatedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -40,9 +43,8 @@ class RoomCreatedScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSizes.paddingXxl),
                 ScreenHeader(
-                  title: "You're All Set! 💍",
-                  subTitle:
-                      "Share this code with your partner so they can join you",
+                  title: t.youreAllSet,
+                  subTitle: t.shareCodeWithPartner,
                 ),
                 const SizedBox(height: AppSizes.paddingXxl),
                 RoomCodeBox(roomId: roomId), // roomId ile gösterim
@@ -52,7 +54,7 @@ class RoomCreatedScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Odanıza Gidin",
+                        t.goToYourRoom,
                         style: GoogleFonts.inter(
                           fontSize: AppSizes.fontXl,
                           fontWeight: AppSizes.weightBold,

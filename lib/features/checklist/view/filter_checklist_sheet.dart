@@ -4,28 +4,31 @@ import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/features/checklist/viewmodel/filter_viewmodel.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FilterChecklistSheet extends ConsumerWidget {
   const FilterChecklistSheet({super.key});
 
-  final List<String> categories = const [
-    "Mutfak",
-    "Banyo",
-    "Yatak Odası",
-    "Salon",
-    "Çalışma Odası",
-    "Balkon / Bahçe",
-    "Elektronik",
-    "Temizlik Ürünleri",
-    "Kişisel Bakım",
-    "Dekorasyon",
-    "Diğer",
-  ];
+  List<String> getLocalizedCategories(AppLocalizations t) => [
+        t.kitchen,
+        t.bathroom,
+        t.bedroom,
+        t.livingRoom,
+        t.studyRoom,
+        t.balconyGarden,
+        t.electronics,
+        t.cleaningProducts,
+        t.personalCare,
+        t.decoration,
+        t.other,
+      ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final filterVM = ref.read(filterProvider.notifier);
     final filter = ref.watch(filterProvider);
+    final t = AppLocalizations.of(context)!;
+    final categories = getLocalizedCategories(t);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
@@ -33,31 +36,34 @@ class FilterChecklistSheet extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-              height: 4,
-              width: 40,
-              decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(4))),
+            height: 4,
+            width: 40,
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Listeni Filtrele",
+              Text(
+                t.filterYourList,
                 style: TextStyle(
                     fontSize: AppSizes.fontXl,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textBlack),
               ),
               IconButton(
-                  icon: const Icon(Icons.close, color: AppColors.iconGrey),
-                  onPressed: () => Navigator.pop(context)),
+                icon: const Icon(Icons.close, color: AppColors.iconGrey),
+                onPressed: () => Navigator.pop(context),
+              ),
             ],
           ),
           const SizedBox(height: AppSizes.paddingLg),
-          const Align(
+          Align(
               alignment: Alignment.centerLeft,
-              child: Text("Kategori",
+              child: Text(t.category,
                   style: TextStyle(
                       fontSize: AppSizes.fontMd,
                       fontWeight: FontWeight.w500,
@@ -76,9 +82,9 @@ class FilterChecklistSheet extends ConsumerWidget {
             }).toList(),
           ),
           const SizedBox(height: AppSizes.paddingXl),
-          const Align(
+          Align(
               alignment: Alignment.centerLeft,
-              child: Text("Öncelik",
+              child: Text(t.priority,
                   style: TextStyle(
                       fontSize: AppSizes.fontMd,
                       fontWeight: FontWeight.w500,
@@ -97,9 +103,9 @@ class FilterChecklistSheet extends ConsumerWidget {
             }),
           ),
           const SizedBox(height: AppSizes.paddingXl),
-          const Align(
+          Align(
               alignment: Alignment.centerLeft,
-              child: Text("Satın alınma durumu",
+              child: Text(t.purchaseStatus,
                   style: TextStyle(
                       fontSize: AppSizes.fontMd,
                       fontWeight: FontWeight.w500,
@@ -108,13 +114,13 @@ class FilterChecklistSheet extends ConsumerWidget {
           Row(
             children: [
               Expanded(
-                  child: _buildStatusButton("Satın alındı",
+                  child: _buildStatusButton(t.purchased,
                       selected: filter.status == PurchaseStatus.purchased,
                       onPressed: () =>
                           filterVM.setStatus(PurchaseStatus.purchased))),
               const SizedBox(width: AppSizes.paddingMd),
               Expanded(
-                  child: _buildStatusButton("Satın alınmadı",
+                  child: _buildStatusButton(t.notPurchased,
                       selected: filter.status == PurchaseStatus.notPurchased,
                       onPressed: () =>
                           filterVM.setStatus(PurchaseStatus.notPurchased))),
@@ -122,14 +128,14 @@ class FilterChecklistSheet extends ConsumerWidget {
           ),
           const SizedBox(height: AppSizes.paddingXl),
           CustomPrimaryButton(
-              text: "Filtreyi resetle",
+              text: t.resetFilter,
               color: AppColors.lightGrey,
               textColor: AppColors.boldGreyText,
               hasShadow: false,
               onTap: () => filterVM.reset()),
           const SizedBox(height: AppSizes.paddingMd),
           CustomPrimaryButton(
-              text: "Filtrele",
+              text: t.applyFilter,
               hasShadow: false,
               onTap: () {
                 filterVM.applyFilters();

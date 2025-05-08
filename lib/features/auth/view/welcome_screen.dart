@@ -9,6 +9,7 @@ import 'package:wedlist/features/shared/components/atoms/app_square_image.dart';
 import 'package:wedlist/features/shared/components/atoms/app_title_text.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/atoms/screen_header.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class WelcomeScreen extends ConsumerWidget {
@@ -16,6 +17,8 @@ class WelcomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -34,18 +37,17 @@ class WelcomeScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const AppTitleText(text: 'WedList'),
+                AppTitleText(text: t.appTitle),
                 const SizedBox(height: AppSizes.paddingXxl),
                 ScreenHeader(
-                  title: "Plan Your Wedding Together 💍",
-                  subTitle:
-                      "Create or join a shared room to build your checklist as a couple",
+                  title: t.planYourWedding,
+                  subTitle: t.createOrJoinRoom,
                 ),
                 const SizedBox(height: AppSizes.paddingXxl),
                 const AppSquareImage(imagePath: 'assets/images/couple.png'),
                 const SizedBox(height: AppSizes.paddingXxl),
                 CustomPrimaryButton(
-                  text: "Oda Oluştur",
+                  text: t.createRoom,
                   onTap: () async {
                     final roomId =
                         await ref.read(roomProvider.notifier).createRoom();
@@ -56,7 +58,7 @@ class WelcomeScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSizes.paddingMd),
                 CustomPrimaryButton(
-                  text: "Odaya katıl",
+                  text: t.joinRoom,
                   onTap: () {
                     context.router.push(const JoinRoomRoute());
                   },

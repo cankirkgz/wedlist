@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomDropdownField extends StatelessWidget {
   final String? selectedValue;
@@ -16,6 +17,8 @@ class CustomDropdownField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return GestureDetector(
       onTap: () => _showBottomSheet(context),
       child: Container(
@@ -34,7 +37,7 @@ class CustomDropdownField extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                selectedValue ?? "Bir seçenek seçin",
+                selectedValue ?? t.selectAnOption,
                 style: const TextStyle(
                   fontSize: AppSizes.fontMd,
                   color: AppColors.textBlack,

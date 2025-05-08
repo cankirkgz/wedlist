@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AnimatedToggleTab extends StatefulWidget {
   final Function(int) onTabChange;
@@ -20,6 +21,8 @@ class AnimatedToggleTab extends StatefulWidget {
 class _AnimatedToggleTabState extends State<AnimatedToggleTab> {
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Container(
       height: AppSizes.heightXl,
       decoration: BoxDecoration(
@@ -51,7 +54,7 @@ class _AnimatedToggleTabState extends State<AnimatedToggleTab> {
                   onTap: () => widget.onTabChange(0),
                   child: Center(
                     child: Text(
-                      'Login',
+                      t.login,
                       style: GoogleFonts.inter(
                         color: widget.selectedIndex == 0
                             ? AppColors.primaryText
@@ -69,7 +72,7 @@ class _AnimatedToggleTabState extends State<AnimatedToggleTab> {
                   onTap: () => widget.onTabChange(1),
                   child: Center(
                     child: Text(
-                      'Sign Up',
+                      t.signUp,
                       style: GoogleFonts.inter(
                         color: widget.selectedIndex == 1
                             ? AppColors.primaryText

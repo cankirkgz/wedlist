@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchItems extends StatelessWidget {
   final TextEditingController controller;
@@ -14,6 +15,8 @@ class SearchItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Container(
       height: AppSizes.heightLg,
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -35,7 +38,7 @@ class SearchItems extends StatelessWidget {
               controller: controller,
               onChanged: onChanged,
               decoration: InputDecoration(
-                hintText: 'Search items...',
+                hintText: t.searchItems,
                 hintStyle: TextStyle(color: AppColors.hintGrey),
                 border: InputBorder.none,
               ),

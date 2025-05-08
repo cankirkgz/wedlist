@@ -12,6 +12,7 @@ import 'package:wedlist/features/shared/components/atoms/app_title_text.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/atoms/or_divider.dart';
 import 'package:wedlist/features/shared/components/molecules/animated_toggle_tab.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class AuthScreen extends ConsumerStatefulWidget {
@@ -40,6 +41,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
     final authVM = ref.read(authProvider.notifier);
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Container(
@@ -59,7 +61,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const AppTitleText(text: 'WedList'),
+                AppTitleText(text: t.appTitle),
                 const SizedBox(height: AppSizes.paddingXxl),
 
                 // 🔘 Toggle Login / Signup
@@ -144,7 +146,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       Image.asset('assets/icons/google.png'),
                       const SizedBox(width: AppSizes.paddingSm),
                       Text(
-                        "Google ile Devam Et",
+                        t.continueWithGoogle,
                         style: GoogleFonts.inter(
                           color: AppColors.textBlack,
                           fontSize: AppSizes.fontXl,

@@ -13,6 +13,7 @@ import 'package:wedlist/features/shared/components/atoms/labeled_switch.dart';
 import 'package:wedlist/features/shared/components/molecules/labeled_dropdown_field.dart';
 import 'package:wedlist/features/shared/components/molecules/labeled_text_field.dart';
 import 'package:wedlist/features/shared/components/molecules/priority_rating_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class AddEditItemScreen extends ConsumerStatefulWidget {
@@ -42,26 +43,26 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     });
   }
 
-  void _saveItem() async {
+  void _saveItem(AppLocalizations t) async {
     final viewModel = ref.read(addEditItemViewModelProvider);
     final authViewModel = ref.read(authProvider.notifier);
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
     if (userId == null) {
-      _showError("Kullanıcı oturumu bulunamadı.");
+      _showError(t.userSessionNotFound);
       return;
     }
 
     try {
-      final roomId = await authViewModel.fetchRoomId();
       await viewModel.saveItem(
-        roomId ?? "",
+        context,
+        widget.roomId,
         userId,
         existingItemId: widget.item?.id,
       );
       context.router.back();
     } catch (e) {
-      _showError(e.toString().replaceAll('Exception: ', ''));
+      _showError(e.toString().replaceAll(t.exceptionLabel, ''));
     }
   }
 
@@ -77,11 +78,13 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(addEditItemViewModelProvider);
+    final t = AppLocalizations.of(context)!;
+    final categories = viewModel.getCategoryList(context);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.item == null ? "Ürün Ekle" : "Ürünü Düzenle",
+          widget.item == null ? t.addProduct : t.editProduct,
           style: GoogleFonts.inter(
             fontWeight: AppSizes.weightBold,
             color: AppColors.textBlack,
@@ -100,15 +103,15 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 LabeledTextField(
-                  label: "Ürün Adı",
-                  hintText: "örn. Tost Makinesi",
+                  label: t.productName,
+                  hintText: t.productExample,
                   controller: viewModel.nameController,
                 ),
                 const SizedBox(height: AppSizes.paddingXl),
                 LabeledDropdownField(
-                  label: "Kategori",
+                  label: t.category,
                   selectedValue: viewModel.selectedCategory,
-                  items: viewModel.categoryList,
+                  items: categories,
                   onChanged: (value) {
                     setState(() {
                       viewModel.selectedCategory = value;
@@ -122,15 +125,15 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                 ),
                 const SizedBox(height: AppSizes.paddingXl),
                 LabeledTextField(
-                  label: "Fiyatı (opsiyonel)",
-                  hintText: "örn. 2500 ₺",
+                  label: t.priceOptional,
+                  hintText: t.priceExample,
                   controller: viewModel.priceController,
                   prefixIcon: Icons.currency_lira,
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: AppSizes.paddingXl),
                 LabeledSwitch(
-                  label: "Satın alındı olarak işaretle",
+                  label: t.markAsPurchased,
                   controller: viewModel.purchasedController,
                 ),
                 const SizedBox(height: AppSizes.paddingXl * 2),
@@ -143,8 +146,8 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
         color: AppColors.white,
         padding: const EdgeInsets.all(AppSizes.paddingLg),
         child: CustomPrimaryButton(
-          text: 'Kaydet',
-          onTap: _saveItem,
+          text: t.save,
+          onTap: () => _saveItem(t),
         ),
       ),
     );

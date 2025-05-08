@@ -9,6 +9,7 @@ import 'package:wedlist/data/providers/room_provider.dart';
 import 'package:wedlist/features/shared/components/atoms/app_square_image.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/molecules/room_code_input.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class JoinRoomScreen extends ConsumerStatefulWidget {
@@ -23,6 +24,8 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -31,7 +34,7 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen> {
         centerTitle: true,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         title: Text(
-          "Bir Odaya Katıl",
+          t.joinRoomTitle,
           style: GoogleFonts.inter(
             fontWeight: AppSizes.weightBold,
             fontSize: AppSizes.fontXxl,
@@ -59,7 +62,7 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen> {
               children: [
                 SizedBox(height: AppSizes.paddingXxl),
                 Text(
-                  "Partnerinizin sizinle paylaştığı kodu giriniz.",
+                  t.enterRoomCode,
                   style: GoogleFonts.inter(
                     fontSize: AppSizes.fontXl,
                     color: AppColors.textBlack,
@@ -80,15 +83,15 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen> {
                 ),
                 const Spacer(),
                 CustomPrimaryButton(
-                  text: "Odaya Katıl",
+                  text: t.joinRoom,
                   onTap: () async {
                     final joined = await ref
                         .read(roomProvider.notifier)
                         .joinRoom(_enteredCode, context);
                     if (!joined) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Böyle bir oda bulunamadı"),
+                        SnackBar(
+                          content: Text(t.roomNotFound),
                         ),
                       );
                     }

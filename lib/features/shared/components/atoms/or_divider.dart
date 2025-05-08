@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrDivider extends StatelessWidget {
   const OrDivider({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Row(
       children: [
         const Expanded(
@@ -22,7 +25,7 @@ class OrDivider extends StatelessWidget {
             vertical: 2,
           ),
           child: Text(
-            'YA DA',
+            t.or,
             style: TextStyle(
               color: AppColors.hintGrey,
               fontWeight: AppSizes.weightMedium,

@@ -4,7 +4,6 @@ import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 class ChecklistRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Bir kerelik listeleme
   Future<List<ChecklistItem>> getItems(String roomCode) async {
     if (roomCode.isEmpty) return [];
 
@@ -12,7 +11,7 @@ class ChecklistRepository {
         .collection('rooms')
         .doc(roomCode)
         .collection('items')
-        .orderBy('createdAt') // createdAt’a göre sırala
+        .orderBy('createdAt')
         .get();
 
     final list = snapshot.docs

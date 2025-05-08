@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddEditItemViewModel extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -10,26 +11,32 @@ class AddEditItemViewModel extends ChangeNotifier {
   String? selectedCategory;
   int priority = 3;
 
-  final List<String> categoryList = [
-    "Mutfak",
-    "Banyo",
-    "Yatak Odası",
-    "Salon",
-    "Çalışma Odası",
-    "Balkon / Bahçe",
-    "Elektronik",
-    "Temizlik Ürünleri",
-    "Kişisel Bakım",
-    "Dekorasyon",
-    "Diğer",
-  ];
+  // Lokalize kategori listesi (UI'da gösterim için)
+  List<String> getCategoryList(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    return [
+      t.kitchen,
+      t.bathroom,
+      t.bedroom,
+      t.livingRoom,
+      t.studyRoom,
+      t.balconyGarden,
+      t.electronics,
+      t.cleaningProducts,
+      t.personalCare,
+      t.decoration,
+      t.other,
+    ];
+  }
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> saveItem(String roomId, String createdBy,
+  Future<void> saveItem(BuildContext context, String roomId, String createdBy,
       {String? existingItemId}) async {
+    final t = AppLocalizations.of(context)!;
+
     if (roomId.isEmpty) {
-      throw Exception("Geçersiz oda kimliği (roomId).");
+      throw Exception(t.invalidRoomId);
     }
 
     final name = nameController.text.trim();
@@ -37,30 +44,26 @@ class AddEditItemViewModel extends ChangeNotifier {
     final isPurchased = purchasedController.value;
 
     if (name.isEmpty || selectedCategory == null) {
-      throw Exception("Lütfen gerekli alanları doldurun.");
+      throw Exception(t.pleaseFillRequiredFields);
     }
 
     final ChecklistItem item = ChecklistItem(
-      id: existingItemId ?? '', // doc id yalnızca update'te kullanılıyor
+      id: existingItemId ?? '',
       name: name,
       category: selectedCategory!,
-      priority: priority.toInt(),
+      priority: priority,
       price: price,
       isChecked: isPurchased,
       createdBy: createdBy,
       createdAt: DateTime.now(),
     );
 
-    final itemRef = FirebaseFirestore.instance
-        .collection('rooms')
-        .doc(roomId)
-        .collection('items');
+    final itemRef =
+        _firestore.collection('rooms').doc(roomId).collection('items');
 
     if (existingItemId != null) {
-      // 🔁 Güncelleme
       await itemRef.doc(existingItemId).update(item.toMap());
     } else {
-      // 🆕 Yeni ekleme
       await itemRef.add(item.toMap());
     }
   }
@@ -74,19 +77,19 @@ class AddEditItemViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  @override
-  void dispose() {
-    nameController.dispose();
-    priceController.dispose();
-    purchasedController.dispose();
-    super.dispose();
-  }
-
   void populateFieldsFromItem(ChecklistItem item) {
     nameController.text = item.name;
     selectedCategory = item.category;
     priority = item.priority;
     priceController.text = item.price?.toString() ?? '';
     purchasedController.value = item.isChecked;
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    priceController.dispose();
+    purchasedController.dispose();
+    super.dispose();
   }
 }

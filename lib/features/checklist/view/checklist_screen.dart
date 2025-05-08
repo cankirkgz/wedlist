@@ -7,7 +7,6 @@ import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/data/providers/auth_provider.dart';
 import 'package:wedlist/data/providers/checklist_provider.dart';
-import 'package:wedlist/data/providers/filter_provider.dart';
 import 'package:wedlist/data/providers/room_provider.dart';
 import 'package:wedlist/features/shared/components/atoms/filter_button.dart';
 import 'package:wedlist/features/shared/components/atoms/search_items.dart';
@@ -15,6 +14,7 @@ import 'package:wedlist/features/shared/components/molecules/custom_gradient_pro
 import 'package:wedlist/features/shared/components/molecules/financial_status_card.dart';
 import 'package:wedlist/features/shared/components/molecules/item_card.dart';
 import 'package:wedlist/data/providers/filtered_checklist_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class ChecklistScreen extends ConsumerStatefulWidget {
@@ -59,6 +59,8 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
     final remaining = checklistVM.remainingTotal;
     final remainingPercent = checklistVM.remainingPercentage;
 
+    final t = AppLocalizations.of(context)!;
+
     return Scaffold(
       extendBodyBehindAppBar: false,
       backgroundColor: Colors.transparent,
@@ -98,15 +100,15 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                         children: [
                           roomAsync.when(
                             data: (room) => Text(
-                              room?.roomName ?? 'Checklist',
+                              room?.roomName ?? t.checklist,
                               style: GoogleFonts.inter(
                                 fontSize: AppSizes.fontXl,
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.primaryText,
                               ),
                             ),
-                            loading: () => const Text("Yükleniyor..."),
-                            error: (e, _) => const Text("Hata"),
+                            loading: () => Text(t.loading),
+                            error: (e, _) => Text(t.error),
                           ),
                           IconButton(
                             icon: const Icon(Icons.logout,
@@ -129,7 +131,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                               padding: const EdgeInsets.only(right: 8),
                               child: FinancialStatusCard(
                                 iconAssetPath: "assets/icons/check.png",
-                                title: "Harcanan",
+                                title: t.spent,
                                 amount: spent,
                                 backgroundColor: AppColors.softPrimary,
                               ),
@@ -140,7 +142,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                               padding: const EdgeInsets.only(left: 8),
                               child: FinancialStatusCard(
                                 iconAssetPath: "assets/icons/hour.png",
-                                title: "Kalan",
+                                title: t.remaining,
                                 amount: remaining,
                                 backgroundColor: AppColors.softBlue,
                                 footer: CustomGradientProgressBar(
@@ -186,7 +188,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                         category: item.category,
                         price: item.price ?? 0,
                         rating: item.priority.toDouble(),
-                        isBought: item.isChecked, // BU SATIR ÇOK KRİTİK!
+                        isBought: item.isChecked,
                         onCheckToggle: (checked) {
                           final updatedItem = item.copyWith(isChecked: checked);
                           checklistVM.updateItem(updatedItem);

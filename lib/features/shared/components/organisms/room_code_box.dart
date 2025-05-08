@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:share_plus/share_plus.dart'; // 📦 paylaşım için
+import 'package:share_plus/share_plus.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/atoms/room_code_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RoomCodeBox extends StatelessWidget {
   final String roomId;
@@ -13,6 +14,9 @@ class RoomCodeBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    final message = t.shareRoomMessage(roomId);
+
     return Card(
       color: AppColors.white,
       shape: RoundedRectangleBorder(
@@ -34,7 +38,7 @@ class RoomCodeBox extends StatelessWidget {
                       color: AppColors.white, size: AppSizes.iconSizeMd),
                   SizedBox(width: AppSizes.paddingMd),
                   Text(
-                    "Kodu Kopyala",
+                    t.copyCode,
                     style: GoogleFonts.inter(
                       fontSize: AppSizes.fontXl,
                       fontWeight: AppSizes.weightBold,
@@ -45,7 +49,7 @@ class RoomCodeBox extends StatelessWidget {
               onTap: () async {
                 await Clipboard.setData(ClipboardData(text: roomId));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Kod kopyalandı')),
+                  SnackBar(content: Text(t.codeCopied)),
                 );
               },
             ),
@@ -60,7 +64,7 @@ class RoomCodeBox extends StatelessWidget {
                       color: AppColors.primaryText, size: AppSizes.iconSizeMd),
                   SizedBox(width: AppSizes.paddingMd),
                   Text(
-                    "Kodu Paylaş",
+                    t.shareCode,
                     style: GoogleFonts.inter(
                       fontSize: AppSizes.fontXl,
                       fontWeight: AppSizes.weightBold,
@@ -71,9 +75,7 @@ class RoomCodeBox extends StatelessWidget {
               ),
               onTap: () {
                 SharePlus.instance.share(
-                  ShareParams(
-                      text:
-                          '💍 WedList oda kodum: $roomId\nBu kodla odamıza katılabilirsin!'),
+                  ShareParams(text: message),
                 );
               },
             ),

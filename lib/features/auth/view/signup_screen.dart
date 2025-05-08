@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/molecules/labeled_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupScreen extends StatelessWidget {
   final TextEditingController emailController;
@@ -21,30 +22,32 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         LabeledTextField(
-          label: "Email",
-          hintText: "Email'inizi giriniz",
+          label: t.email,
+          hintText: t.enterYourEmail,
           controller: emailController,
         ),
         const SizedBox(height: AppSizes.paddingXxl),
         LabeledTextField(
-          label: "Parola",
-          hintText: "Parolanızı giriniz",
+          label: t.password,
+          hintText: t.enterYourPassword,
           controller: passwordController,
           isPassword: true,
         ),
         const SizedBox(height: AppSizes.paddingXxl),
         LabeledTextField(
-          label: "İsim",
-          hintText: "İsminizi giriniz",
+          label: t.name,
+          hintText: t.enterYourName,
           controller: nameController,
         ),
         const SizedBox(height: AppSizes.paddingLg),
         CustomPrimaryButton(
-          text: "Kayıt Ol",
+          text: t.signUp,
           onTap: onSignupTap,
           isLoading: isLoading,
         ),

@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PriorityRatingBar extends StatelessWidget {
   final int value;
@@ -16,11 +17,13 @@ class PriorityRatingBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Öncelik Seviyesi",
+          t.priorityLevel,
           style: GoogleFonts.inter(
             fontSize: AppSizes.fontLg,
             fontWeight: FontWeight.w500,
@@ -47,7 +50,7 @@ class PriorityRatingBar extends StatelessWidget {
         ),
         const SizedBox(height: AppSizes.paddingXs),
         Text(
-          "Bu ürün sizin için ne kadar öncelikli?",
+          t.priorityQuestion,
           style: GoogleFonts.inter(
             fontSize: AppSizes.fontMd,
             fontWeight: FontWeight.w500,

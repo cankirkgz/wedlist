@@ -3,6 +3,7 @@ import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/features/shared/components/atoms/clickable_text.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/molecules/labeled_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController;
@@ -22,18 +23,20 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         LabeledTextField(
-          label: "Email",
-          hintText: "Email'inizi giriniz",
+          label: t.email,
+          hintText: t.enterYourEmail,
           controller: emailController,
         ),
         const SizedBox(height: AppSizes.paddingXxl),
         LabeledTextField(
-          label: "Parola",
-          hintText: "Parolanızı giriniz",
+          label: t.password,
+          hintText: t.enterYourPassword,
           controller: passwordController,
           isPassword: true,
         ),
@@ -41,13 +44,13 @@ class LoginScreen extends StatelessWidget {
         Align(
           alignment: Alignment.centerRight,
           child: ClickableText(
-            text: "Parolanızı mı unuttunuz?",
+            text: t.forgotPassword,
             onTap: onForgotPassword,
           ),
         ),
         const SizedBox(height: AppSizes.paddingMd),
         CustomPrimaryButton(
-          text: "Giriş Yap",
+          text: t.login,
           onTap: onLoginTap,
           isLoading: isLoading,
         ),

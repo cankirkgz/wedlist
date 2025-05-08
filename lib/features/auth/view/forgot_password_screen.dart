@@ -8,6 +8,7 @@ import 'package:wedlist/data/providers/auth_provider.dart';
 import 'package:wedlist/features/shared/components/atoms/app_title_text.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:wedlist/features/shared/components/molecules/labeled_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class ForgotPasswordScreen extends ConsumerWidget {
@@ -18,6 +19,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
     final TextEditingController _emailController = TextEditingController();
     final authState = ref.watch(authProvider);
     final authVM = ref.read(authProvider.notifier);
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Container(
@@ -39,7 +41,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const AppTitleText(text: 'WedList'),
+                AppTitleText(text: t.appTitle),
                 const SizedBox(height: AppSizes.paddingXxl),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -53,7 +55,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                         const Icon(Icons.arrow_back),
                         const SizedBox(width: AppSizes.paddingSm),
                         Text(
-                          "Giriş Yap Sayfasına Dön",
+                          t.backToLogin,
                           style: GoogleFonts.inter(
                             fontSize: AppSizes.fontLg,
                             color: AppColors.textBlack,
@@ -65,7 +67,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSizes.paddingLg),
                 Text(
-                  "Parolanı Yenile",
+                  t.resetPasswordTitle,
                   style: GoogleFonts.inter(
                     fontSize: AppSizes.fontHuge,
                     fontWeight: AppSizes.weightBold,
@@ -74,7 +76,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSizes.paddingXs),
                 Text(
-                  "E-posta adresinizi girin, şifrenizi sıfırlamak için talimatları size gönderelim.",
+                  t.resetPasswordDescription,
                   style: GoogleFonts.inter(
                     fontSize: AppSizes.fontLg,
                     color: AppColors.textBlack,
@@ -83,20 +85,19 @@ class ForgotPasswordScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: AppSizes.paddingXl),
                 LabeledTextField(
-                  label: 'Email',
-                  hintText: 'Emailinizi giriniz',
+                  label: t.email,
+                  hintText: t.enterYourEmail,
                   controller: _emailController,
                 ),
                 const SizedBox(height: AppSizes.paddingXl),
                 CustomPrimaryButton(
-                  text: "Şifreni Sıfırla",
+                  text: t.resetPasswordButton,
                   onTap: () async {
                     final email = _emailController.text.trim();
 
                     if (email.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Lütfen e-posta adresinizi girin')),
+                        SnackBar(content: Text(t.emailRequired)),
                       );
                       return;
                     }
@@ -107,9 +108,9 @@ class ForgotPasswordScreen extends ConsumerWidget {
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text(
-                                'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.')),
+                        SnackBar(
+                          content: Text(t.resetEmailSent),
+                        ),
                       );
                       context.router.back(); // Giriş ekranına geri döner
                     }
