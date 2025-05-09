@@ -94,4 +94,18 @@ class FirestoreService {
       return null;
     }
   }
+
+  Future<void> updateRoom(String roomId, Map<String, dynamic> data) async {
+    await _firestore.collection('rooms').doc(roomId).update(data);
+  }
+
+  Future<void> removeUserFromRoom(String roomId, String userId) async {
+    await _firestore.collection('rooms').doc(roomId).update({
+      'participants': FieldValue.arrayRemove([userId])
+    });
+  }
+
+  Future<void> deleteRoom(String roomId) async {
+    await _firestore.collection('rooms').doc(roomId).delete();
+  }
 }

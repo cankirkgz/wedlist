@@ -84,6 +84,7 @@ class AppSizes {
   static const double heightHuge = 160.0;
 
   // Widths
+  static const double widthXxs = 20.0;
   static const double widthXs = 32.0;
   static const double widthSm = 40.0;
   static const double widthMd = 48.0;

@@ -60,8 +60,11 @@ class RoomCodeBox extends StatelessWidget {
               widget: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.share,
-                      color: AppColors.primaryText, size: AppSizes.iconSizeMd),
+                  Icon(
+                    Icons.share,
+                    color: AppColors.primaryText,
+                    size: AppSizes.iconSizeMd,
+                  ),
                   SizedBox(width: AppSizes.paddingMd),
                   Text(
                     t.shareCode,

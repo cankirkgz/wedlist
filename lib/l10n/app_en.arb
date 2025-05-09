@@ -71,7 +71,7 @@
     "copyCode": "Copy Code",
     "codeCopied": "Code copied",
     "shareCode": "Share Code",
-    "shareRoomMessage": "💍 My WedList room code: {roomId}\\nYou can join our room with this code!",
+    "shareRoomMessage": "💍 My WedList room code: {roomId} You can join our room with this code!",
     "@shareRoomMessage": {
       "description": "Message to share the room code with a partner",
       "placeholders": {
@@ -79,9 +79,17 @@
       }
     },
     "invalidRoomId": "Invalid room ID.",
-    "pleaseFillRequiredFields": "Please fill in the required fields."
-
-
+    "pleaseFillRequiredFields": "Please fill in the required fields.",
+    "settings": "Settings",
+    "logout": "Logout",
+    "defaultRoomName": "Our Wedding Preparation List",
+    "roomCode": "Room Code",
+    "roomName": "Room Name",
+    "roomNameUpdated": "Room name updated",
+    "you": "You",
+    "noParticipants": "No participants yet.",
+    "errorLoadingParticipants": "An error occurred while loading participants",
+    "participants": "Participants"
 
 
   }

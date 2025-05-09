@@ -71,14 +71,24 @@
     "copyCode": "Code kopieren",
     "codeCopied": "Code kopiert",
     "shareCode": "Code teilen",
-    "shareRoomMessage": "💍 Mein WedList-Raumcode: {roomId}\\nMit diesem Code kannst du unserem Raum beitreten!",
+    "shareRoomMessage": "💍 Mein WedList-Raumcode: {roomId} Mit diesem Code kannst du unserem Raum beitreten!",
     "@shareRoomMessage": {
       "placeholders": {
         "roomId": {}
       }
     },
     "invalidRoomId": "Ungültige Raum-ID.",
-    "pleaseFillRequiredFields": "Bitte füllen Sie die erforderlichen Felder aus."
+    "pleaseFillRequiredFields": "Bitte füllen Sie die erforderlichen Felder aus.",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "defaultRoomName": "Unsere Hochzeitsvorbereitungsliste",
+    "roomCode": "Raumcode",
+    "roomName": "Raumname",
+    "roomNameUpdated": "Raumname wurde aktualisiert",
+    "you": "Du",
+    "noParticipants": "Noch keine Teilnehmer.",
+    "errorLoadingParticipants": "Fehler beim Laden der Teilnehmer",
+    "participants": "Teilnehmer"
 
 
   }

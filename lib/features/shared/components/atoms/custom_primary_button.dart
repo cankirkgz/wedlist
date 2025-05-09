@@ -72,7 +72,7 @@ class CustomPrimaryButton extends StatelessWidget {
                 Text(
                   text!,
                   style: GoogleFonts.inter(
-                    fontWeight: AppSizes.weightBold,
+                    fontWeight: AppSizes.weightMedium,
                     fontSize: AppSizes.fontXl,
                   ),
                 ),

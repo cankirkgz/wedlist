@@ -71,14 +71,24 @@
     "copyCode": "Kodu Kopyala",
     "codeCopied": "Kod kopyalandı",
     "shareCode": "Kodu Paylaş",
-    "shareRoomMessage": "💍 WedList oda kodum: {roomId}\\nBu kodla odamıza katılabilirsin!",
+    "shareRoomMessage": "💍 WedList oda kodum: {roomId} Bu kodla odamıza katılabilirsin!",
     "@shareRoomMessage": {
       "placeholders": {
         "roomId": {}
       }
     },
     "invalidRoomId": "Geçersiz oda kimliği.",
-    "pleaseFillRequiredFields": "Lütfen gerekli alanları doldurun."
+    "pleaseFillRequiredFields": "Lütfen gerekli alanları doldurun.",
+    "settings": "Ayarlar",
+    "logout": "Çıkış Yap",
+    "defaultRoomName": "Düğün Hazırlık Listemiz",
+    "roomCode": "Oda Kodu",
+    "roomName": "Oda Adı",
+    "roomNameUpdated": "Oda adı güncellendi",
+    "you": "Sen",
+    "noParticipants": "Henüz katılımcı yok.",
+    "errorLoadingParticipants": "Katılımcılar yüklenirken hata oluştu",
+    "participants": "Katılımcılar"
 
 
   }

@@ -49,8 +49,9 @@ class WelcomeScreen extends ConsumerWidget {
                 CustomPrimaryButton(
                   text: t.createRoom,
                   onTap: () async {
-                    final roomId =
-                        await ref.read(roomProvider.notifier).createRoom();
+                    final roomId = await ref
+                        .read(roomProvider.notifier)
+                        .createRoom(context);
                     if (roomId != null) {
                       context.router.push(RoomCreatedRoute(roomId: roomId));
                     }

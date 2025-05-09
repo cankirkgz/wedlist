@@ -8,6 +8,8 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final VoidCallback? onSuffixTap;
+  final Color? suffixIconColor;
   final TextInputType keyboardType;
 
   const CustomTextField({
@@ -17,6 +19,8 @@ class CustomTextField extends StatefulWidget {
     this.isPassword = false,
     this.prefixIcon,
     this.suffixIcon,
+    this.onSuffixTap,
+    this.suffixIconColor,
     this.keyboardType = TextInputType.text,
   });
 
@@ -72,7 +76,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ? IconButton(
                 icon: Icon(
                   _obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: AppColors.hintGrey,
+                  color: widget.suffixIconColor ?? AppColors.hintGrey,
                 ),
                 onPressed: () {
                   setState(() {
@@ -81,7 +85,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 },
               )
             : (widget.suffixIcon != null
-                ? Icon(widget.suffixIcon, color: AppColors.hintGrey)
+                ? GestureDetector(
+                    onTap: widget.onSuffixTap,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Icon(
+                        widget.suffixIcon,
+                        color: widget.suffixIconColor ?? AppColors.hintGrey,
+                      ),
+                    ),
+                  )
                 : null),
       ),
     );

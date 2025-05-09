@@ -33,10 +33,9 @@ class ChecklistRepository {
         .collection('rooms')
         .doc(roomCode)
         .collection('items')
-        .orderBy('createdAt') // createdAt’a göre sırala
+        .orderBy('createdAt')
         .snapshots()
         .handleError((error) {
-      // Eğer stream’de bir hata olursa en azından konsola bas
       print("ChecklistRepository.streamItems error: $error");
     }).map((snapshot) => snapshot.docs
             .map((doc) => ChecklistItem.fromMap(doc.id, doc.data()))

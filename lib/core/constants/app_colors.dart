@@ -18,4 +18,8 @@ class AppColors {
   static const Color lightGrey = Color(0xFFF3F4F6);
   static const Color red = Color(0xFFEF4444);
   static const Color iconGrey = Color(0xFF9CA3AF);
+  static const Color softBackground = Color(0xFFF9FAFB);
+  static const Color opacityBorderPrimary = Color(0xFFFECACA);
+  static const Color opacityPrimary = Color(0xFFFEF2F2);
+  static const Color opacityTextPrimary = Color(0xFFDC2626);
 }
