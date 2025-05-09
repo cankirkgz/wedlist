@@ -88,7 +88,19 @@
     "you": "Ты",
     "noParticipants": "Пока нет участников.",
     "errorLoadingParticipants": "Произошла ошибка при загрузке участников",
-    "participants": "Участники"
+    "participants": "Участники",
+    "errorLabel": "Ошибка: ",
+    "dangerZone": "Зона опасности",
+    "leaveRoom": "Покинуть комнату",
+    "confirmLeave": "Вы уверены?",
+    "leaveRoomWarning": "Вы покинете комнату.",
+    "cancel": "Отмена",
+    "leave": "Покинуть",
+    "deleteRoom": "Удалить комнату",
+    "deleteRoomConfirm": "Удалить комнату?",
+    "irreversibleAction": "Это действие необратимо.",
+    "delete": "Удалить"
+
 
   }
   

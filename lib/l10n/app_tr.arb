@@ -88,7 +88,19 @@
     "you": "Sen",
     "noParticipants": "Henüz katılımcı yok.",
     "errorLoadingParticipants": "Katılımcılar yüklenirken hata oluştu",
-    "participants": "Katılımcılar"
+    "participants": "Katılımcılar",
+    "errorLabel": "Hata: ",
+    "dangerZone": "Tehlike Bölgesi",
+    "leaveRoom": "Odadan Ayrıl",
+    "confirmLeave": "Emin misiniz?",
+    "leaveRoomWarning": "Odadan ayrılacaksınız.",
+    "cancel": "İptal",
+    "leave": "Ayrıl",
+    "deleteRoom": "Odayı Sil",
+    "deleteRoomConfirm": "Odayı Sil?",
+    "irreversibleAction": "Bu işlem geri alınamaz.",
+    "delete": "Sil"
+
 
 
   }

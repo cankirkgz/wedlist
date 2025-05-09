@@ -88,8 +88,18 @@
     "you": "Du",
     "noParticipants": "Noch keine Teilnehmer.",
     "errorLoadingParticipants": "Fehler beim Laden der Teilnehmer",
-    "participants": "Teilnehmer"
-
+    "participants": "Teilnehmer",
+    "errorLabel": "Fehler: ",
+    "dangerZone": "Gefahrenzone",
+    "leaveRoom": "Raum verlassen",
+    "confirmLeave": "Sind Sie sicher?",
+    "leaveRoomWarning": "Sie werden den Raum verlassen.",
+    "cancel": "Abbrechen",
+    "leave": "Verlassen",
+    "deleteRoom": "Raum löschen",
+    "deleteRoomConfirm": "Raum löschen?",
+    "irreversibleAction": "Diese Aktion ist unwiderruflich.",
+    "delete": "Löschen"
 
   }
   

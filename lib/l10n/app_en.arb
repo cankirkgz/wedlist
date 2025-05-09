@@ -89,8 +89,18 @@
     "you": "You",
     "noParticipants": "No participants yet.",
     "errorLoadingParticipants": "An error occurred while loading participants",
-    "participants": "Participants"
-
+    "participants": "Participants",
+    "errorLabel": "Error: ",
+    "dangerZone": "Danger Zone",
+    "leaveRoom": "Leave Room",
+    "confirmLeave": "Are you sure?",
+    "leaveRoomWarning": "You will leave the room.",
+    "cancel": "Cancel",
+    "leave": "Leave",
+    "deleteRoom": "Delete Room",
+    "deleteRoomConfirm": "Delete Room?",
+    "irreversibleAction": "This action is irreversible.",
+    "delete": "Delete"
 
   }
   
