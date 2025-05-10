@@ -3,6 +3,6 @@ import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 import 'package:wedlist/features/checklist/viewmodel/checklist_viewmodel.dart';
 
 final checklistProvider =
-    NotifierProvider<ChecklistViewModel, List<ChecklistItem>>(
+    AutoDisposeAsyncNotifierProvider<ChecklistViewModel, List<ChecklistItem>>(
   () => ChecklistViewModel(),
 );

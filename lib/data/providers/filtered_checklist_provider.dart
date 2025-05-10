@@ -6,38 +6,72 @@ import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 
 /// Tüm öğeleri + filtre durumunu + arama sorgusunu bir arada süzerek döner
 final filteredChecklistProvider = Provider<List<ChecklistItem>>((ref) {
-  final allItems = ref.watch(checklistProvider); // Firestore akışı
-  final filter = ref.watch(filterProvider); // kategori/öncelik/durum
-  final searchQuery = ref.watch(searchQueryProvider).toLowerCase();
+  final asyncItems = ref.watch(checklistProvider);
+  final filter = ref.watch(filterProvider);
+  final query = ref.watch(searchQueryProvider).toLowerCase();
 
-  return allItems.where((item) {
-    // 1) Kategori
-    if (filter.selectedCategory != null &&
-        filter.selectedCategory!.isNotEmpty &&
-        item.category != filter.selectedCategory) {
-      return false;
-    }
+  return asyncItems.when(
+    data: (items) {
+      print('Filtreleme başlıyor...');
+      print('Toplam item sayısı: ${items.length}');
+      print('Seçili kategori: ${filter.selectedCategory}');
+      print('Seçili öncelik: ${filter.selectedPriority}');
+      print('Seçili durum: ${filter.status}');
+      print('Arama sorgusu: $query');
 
-    // 2) Öncelik
-    if (filter.selectedPriority != null &&
-        item.priority != filter.selectedPriority) {
-      return false;
-    }
+      // Önce tüm itemları kopyala ve sıralamayı koru
+      final filtered = List<ChecklistItem>.from(items);
 
-    // 3) Satın alma durumu
-    if (filter.status == PurchaseStatus.purchased && !item.isChecked) {
-      return false;
-    }
-    if (filter.status == PurchaseStatus.notPurchased && item.isChecked) {
-      return false;
-    }
+      // Filtreleme işlemlerini uygula
+      final result = filtered.where((item) {
+        // 1. Kategori filtresi
+        if (filter.selectedCategory?.isNotEmpty == true &&
+            item.category != filter.selectedCategory) {
+          return false;
+        }
 
-    // 4) Arama
-    if (searchQuery.isNotEmpty &&
-        !item.name.toLowerCase().contains(searchQuery)) {
-      return false;
-    }
+        // 2. Öncelik filtresi
+        if (filter.selectedPriority != null &&
+            item.priority != filter.selectedPriority) {
+          return false;
+        }
 
-    return true;
-  }).toList();
+        // 3. Satın alma durumu filtresi
+        if (filter.status == PurchaseStatus.purchased && !item.isPurchased) {
+          return false;
+        }
+        if (filter.status == PurchaseStatus.notPurchased && item.isPurchased) {
+          return false;
+        }
+
+        // 4. Arama filtresi
+        if (query.isNotEmpty && !item.name.toLowerCase().contains(query)) {
+          return false;
+        }
+
+        return true;
+      }).toList();
+
+      print('Filtreleme sonrası item sayısı: ${result.length}');
+      print('Filtrelenen itemlar:');
+      for (var item in result) {
+        print('${item.name} - isPurchased: ${item.isPurchased}');
+      }
+
+      // Filtreleme sonrası sıralamayı koru
+      result.sort((a, b) {
+        if (a.isPurchased == b.isPurchased) {
+          return a.createdAt.compareTo(b.createdAt);
+        }
+        return a.isPurchased ? 1 : -1;
+      });
+
+      return result;
+    },
+    loading: () => [],
+    error: (e, _) {
+      print('Filtreleme hatası: $e');
+      return [];
+    },
+  );
 });

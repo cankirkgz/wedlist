@@ -43,7 +43,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
     _bannerAd = BannerAd(
       adUnitId: 'ca-app-pub-3195576697663098/1913688170',
       size: AdSize.banner,
-      request: AdRequest(),
+      request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (ad) => debugPrint('Ad loaded'),
         onAdFailedToLoad: (ad, error) {
@@ -53,7 +53,6 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
       ),
     )..load();
 
-    // Oda kodunu bir kez ayarla
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(checklistProvider.notifier).setRoomCode(widget.roomId);
     });
@@ -72,17 +71,18 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
 
     final authVM = ref.watch(authProvider.notifier);
     final roomAsync = ref.watch(roomProvider);
-    final checklistVM = ref.watch(checklistProvider.notifier);
+    final checklistVM = ref.read(checklistProvider.notifier);
     final items = ref.watch(filteredChecklistProvider);
-    final searchQuery = ref.watch(searchQueryProvider);
 
-    roomAsync.whenData((room) {
-      if (room != null) checklistVM.setRoomCode(widget.roomId);
-    });
-
-    final spent = checklistVM.spentTotal;
-    final remaining = checklistVM.remainingTotal;
-    final remainingPercent = checklistVM.remainingPercentage;
+    // Finansal hesaplamalar
+    final spent = items
+        .where((i) => i.isPurchased)
+        .fold(0.0, (sum, i) => sum + (i.price ?? 0));
+    final remaining = items
+        .where((i) => !i.isPurchased)
+        .fold(0.0, (sum, i) => sum + (i.price ?? 0));
+    final total = spent + remaining;
+    final remainingPercent = total == 0 ? 0 : remaining / total;
 
     return Scaffold(
       extendBodyBehindAppBar: false,
@@ -98,7 +98,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
         child: SafeArea(
           child: CustomScrollView(
             slivers: [
-              /// 🟩 ÜST BAR (başlık + finans kartları + arama)
+              // 🟩 ÜST BAR
               SliverToBoxAdapter(
                 child: Container(
                   decoration: const BoxDecoration(
@@ -136,7 +136,6 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                               error: (e, _) => Text(t.error),
                             ),
                             Flexible(
-                              flex: 0,
                               child: PopupMenuButton<String>(
                                 icon: const Icon(Icons.more_vert,
                                     color: AppColors.primaryText),
@@ -184,7 +183,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                                   amount: remaining,
                                   backgroundColor: AppColors.softBlue,
                                   footer: CustomGradientProgressBar(
-                                    percentage: remainingPercent,
+                                    percentage: remainingPercent.toDouble(),
                                   ),
                                 ),
                               ),
@@ -199,7 +198,6 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                               child: SearchItems(
                                 controller: _controller,
                                 onChanged: (q) {
-                                  // her karakterde searchQueryProvider güncellensin
                                   ref.read(searchQueryProvider.notifier).state =
                                       q;
                                 },
@@ -215,7 +213,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                 ),
               ),
 
-              /// 🟦 ÜRÜN LİSTESİ
+              // 🟦 ÜRÜN LİSTESİ
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -227,9 +225,10 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                         category: item.category,
                         price: item.price ?? 0,
                         rating: item.priority.toDouble(),
-                        isBought: item.isChecked,
+                        isBought: item.isPurchased,
                         onCheckToggle: (checked) {
-                          final updatedItem = item.copyWith(isChecked: checked);
+                          final updatedItem =
+                              item.copyWith(isPurchased: checked);
                           checklistVM.updateItem(updatedItem);
                         },
                         onEdit: () {
@@ -252,7 +251,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
         ),
       ),
 
-      // FAB
+      // ➕ FAB
       floatingActionButton: SizedBox(
         width: AppSizes.widthXl,
         height: AppSizes.heightXl,
@@ -265,6 +264,8 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
           child: const Icon(Icons.add, color: AppColors.white, size: 32),
         ),
       ),
+
+      // 📢 Banner Ad
       bottomNavigationBar: _bannerAd.responseInfo == null
           ? const SizedBox.shrink()
           : SizedBox(

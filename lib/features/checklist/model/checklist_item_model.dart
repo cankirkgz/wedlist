@@ -6,7 +6,7 @@ class ChecklistItem {
   final String category;
   final int priority;
   final double? price;
-  final bool isChecked;
+  final bool isPurchased;
   final String createdBy;
   final DateTime createdAt;
 
@@ -16,19 +16,47 @@ class ChecklistItem {
     required this.category,
     required this.priority,
     this.price,
-    required this.isChecked,
+    required this.isPurchased,
     required this.createdBy,
     required this.createdAt,
   });
 
   factory ChecklistItem.fromMap(String id, Map<String, dynamic> map) {
+    final isPurchasedValue = map['isPurchased'];
+    print("Model dönüşümü - ID: $id");
+    print("Ham isPurchased değeri: $isPurchasedValue");
+    print("Ham isPurchased tipi: ${isPurchasedValue.runtimeType}");
+
+    final isPurchased = isPurchasedValue == true;
+    print("Dönüştürülmüş isPurchased değeri: $isPurchased");
+    print("-------------------");
+
+    // Kategori standardizasyonu
+    String standardizeCategory(String category) {
+      final Map<String, String> categoryMap = {
+        'Mutfak': 'Mutfak',
+        'Banyo': 'Banyo',
+        'Yatak Odası': 'Yatak Odası',
+        'Salon': 'Salon',
+        'Çalışma Odası': 'Çalışma Odası',
+        'Balkon / Bahçe': 'Balkon / Bahçe',
+        'Elektronik': 'Elektronik',
+        'Temizlik Ürünleri': 'Temizlik Ürünleri',
+        'Kişisel Bakım': 'Kişisel Bakım',
+        'Dekorasyon': 'Dekorasyon',
+        'Diğer': 'Diğer',
+      };
+
+      return categoryMap[category] ?? 'Diğer';
+    }
+
     return ChecklistItem(
       id: id,
       name: map['name'] as String? ?? '',
-      category: map['category'] as String? ?? '',
+      category: standardizeCategory(map['category'] as String? ?? 'Diğer'),
       priority: map['priority'] as int? ?? 1,
       price: (map['price'] as num?)?.toDouble(),
-      isChecked: map['isChecked'] as bool? ?? false,
+      isPurchased: isPurchased,
       createdBy: map['createdBy'] as String? ?? '',
       createdAt: (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
@@ -40,7 +68,7 @@ class ChecklistItem {
       'category': category,
       'priority': priority,
       'price': price,
-      'isChecked': isChecked,
+      'isPurchased': isPurchased,
       'createdBy': createdBy,
       'createdAt': Timestamp.fromDate(createdAt),
     };
@@ -52,7 +80,7 @@ class ChecklistItem {
     String? category,
     int? priority,
     double? price,
-    bool? isChecked,
+    bool? isPurchased,
     String? createdBy,
     DateTime? createdAt,
   }) {
@@ -62,7 +90,7 @@ class ChecklistItem {
       category: category ?? this.category,
       priority: priority ?? this.priority,
       price: price ?? this.price,
-      isChecked: isChecked ?? this.isChecked,
+      isPurchased: isPurchased ?? this.isPurchased,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
     );

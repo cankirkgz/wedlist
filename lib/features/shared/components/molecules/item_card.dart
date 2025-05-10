@@ -5,7 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 
-class ItemCard extends StatefulWidget {
+class ItemCard extends StatelessWidget {
   final String name;
   final String category;
   final double price;
@@ -28,33 +28,20 @@ class ItemCard extends StatefulWidget {
   });
 
   @override
-  State<ItemCard> createState() => _ItemCardState();
-}
-
-class _ItemCardState extends State<ItemCard> {
-  late bool isBought;
-
-  @override
-  void initState() {
-    super.initState();
-    isBought = widget.isBought;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Slidable(
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
         children: [
           SlidableAction(
-            onPressed: (_) => widget.onEdit(),
+            onPressed: (_) => onEdit(),
             backgroundColor: AppColors.blue,
             foregroundColor: Colors.white,
             icon: Icons.edit,
             label: '',
           ),
           SlidableAction(
-            onPressed: (_) => widget.onDelete(),
+            onPressed: (_) => onDelete(),
             backgroundColor: AppColors.red,
             foregroundColor: Colors.white,
             icon: Icons.delete,
@@ -84,10 +71,7 @@ class _ItemCardState extends State<ItemCard> {
             children: [
               SizedBox(width: 8.w),
               GestureDetector(
-                onTap: () {
-                  setState(() => isBought = !isBought);
-                  widget.onCheckToggle(isBought);
-                },
+                onTap: () => onCheckToggle(!isBought),
                 child: Container(
                   width: 24.w,
                   height: 24.w,
@@ -108,7 +92,7 @@ class _ItemCardState extends State<ItemCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.name,
+                      name,
                       style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
@@ -128,7 +112,7 @@ class _ItemCardState extends State<ItemCard> {
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
-                            widget.category,
+                            category,
                             style: TextStyle(
                               fontSize: 11.sp,
                               color: AppColors.primaryText,
@@ -137,7 +121,7 @@ class _ItemCardState extends State<ItemCard> {
                         ),
                         SizedBox(width: 6.w),
                         RatingBarIndicator(
-                          rating: widget.rating,
+                          rating: rating,
                           itemBuilder: (context, _) => const Icon(
                             Icons.star,
                             color: Colors.amber,
@@ -153,7 +137,7 @@ class _ItemCardState extends State<ItemCard> {
               ),
               SizedBox(width: 8.w),
               Text(
-                '₺${widget.price.toStringAsFixed(0)}',
+                '₺${price.toStringAsFixed(0)}',
                 style: TextStyle(
                   color: AppColors.primaryText,
                   fontWeight: FontWeight.bold,

@@ -1,91 +1,69 @@
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedlist/data/repository/checklist_repository.dart';
 import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
-import 'package:wedlist/features/checklist/viewmodel/filter_viewmodel.dart';
 
-class ChecklistViewModel extends Notifier<List<ChecklistItem>> {
-  late final ChecklistRepository _repository;
+class ChecklistViewModel extends AutoDisposeAsyncNotifier<List<ChecklistItem>> {
+  final ChecklistRepository _repository = ChecklistRepository();
+  late StreamSubscription<List<ChecklistItem>> _subscription;
   String _roomCode = '';
-  List<ChecklistItem> _allItems = [];
-  String _searchQuery = '';
-
-  /// Harcanan toplam tutar
-  double get spentTotal => _allItems
-      .where((i) => i.isChecked)
-      .fold(0.0, (sum, i) => sum + (i.price ?? 0));
-
-  /// Kalan toplam tutar
-  double get remainingTotal => _allItems
-      .where((i) => !i.isChecked)
-      .fold(0.0, (sum, i) => sum + (i.price ?? 0));
-
-  /// Kalanın toplam içindeki oranı
-  double get remainingPercentage {
-    final total = spentTotal + remainingTotal;
-    return total == 0 ? 0 : remainingTotal / total;
-  }
 
   @override
-  List<ChecklistItem> build() {
-    _repository = ChecklistRepository();
-    // Filtre veya arama değiştiğinde tekrar uygula
-    ref.listen<FilterState>(filterProvider, (_, __) => _applyFilters());
+  FutureOr<List<ChecklistItem>> build() async {
+    // Stream aboneliği sadece setRoomCode çağrıldığında başlatılacak
     return [];
   }
 
-  /// Oda kodunu set edip Firestore stream'ini başlat
-  void setRoomCode(String code) {
-    _roomCode = code;
-    _repository.streamItems(code).listen((items) {
-      _allItems = items;
-      _applyFilters();
-    });
-  }
+  /// Oda kodunu alıp Firestore stream'ini başlat
+  void setRoomCode(String roomCode) {
+    _roomCode = roomCode;
 
-  /// Arama sorgusunu güncelle
-  void setSearchQuery(String query) {
-    _searchQuery = query;
-    _applyFilters();
+    _subscription = _repository.streamItems(roomCode).listen((items) {
+      state = AsyncData(items);
+    });
   }
 
   Future<void> addItem(ChecklistItem item) =>
       _repository.addItem(_roomCode, item);
 
-  Future<void> updateItem(ChecklistItem item) =>
-      _repository.updateItem(_roomCode, item);
+  Future<void> updateItem(ChecklistItem item) async {
+    print("Güncelleme başlıyor - Item ID: ${item.id}");
+    print("Güncellenecek item verileri:");
+    print("isPurchased değeri: ${item.isPurchased}");
+    print("Ham veri: ${item.toMap()}");
+
+    try {
+      // Önce mevcut state'i al
+      final currentState = state;
+      if (currentState is AsyncData) {
+        // Mevcut item'ı bul
+        final currentItems = currentState.value;
+        if (currentItems != null) {
+          final currentItem = currentItems.firstWhere((i) => i.id == item.id,
+              orElse: () => item);
+
+          // Sadece isPurchased değeri değiştiyse güncelle
+          if (currentItem.isPurchased != item.isPurchased) {
+            await _repository.updateItem(_roomCode, item);
+            print("Güncelleme başarılı");
+          } else {
+            print("isPurchased değeri değişmedi, güncelleme yapılmadı");
+          }
+        }
+      }
+    } catch (e) {
+      print("Güncelleme hatası: $e");
+      rethrow;
+    }
+
+    print("-------------------");
+  }
 
   Future<void> deleteItem(String id) => _repository.deleteItem(_roomCode, id);
 
-  /// Filtre ve arama kriterlerini uygulayıp state'i günceller
-  void _applyFilters() {
-    final f = ref.read(filterProvider);
-
-    var filtered = _allItems.where((item) {
-      // 1) Kategori filtresi
-      final byCategory = f.selectedCategory == null ||
-          f.selectedCategory!.isEmpty ||
-          item.category == f.selectedCategory;
-
-      // 2) Öncelik filtresi
-      final byPriority =
-          f.selectedPriority == null || item.priority == f.selectedPriority;
-
-      // 3) Durum filtresi
-      final byStatus = f.status == PurchaseStatus.all ||
-          (f.status == PurchaseStatus.purchased && item.isChecked) ||
-          (f.status == PurchaseStatus.notPurchased && !item.isChecked);
-
-      return byCategory && byPriority && byStatus;
-    }).toList();
-
-    // 4) Arama sorgusu
-    if (_searchQuery.isNotEmpty) {
-      final q = _searchQuery.toLowerCase();
-      filtered = filtered
-          .where((item) => item.name.toLowerCase().contains(q))
-          .toList();
-    }
-
-    state = filtered;
+  /// Oda değişirse eski stream'i kapat
+  @override
+  void dispose() {
+    _subscription.cancel();
   }
 }

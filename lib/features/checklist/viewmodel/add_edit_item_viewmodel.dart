@@ -53,7 +53,7 @@ class AddEditItemViewModel extends ChangeNotifier {
       category: selectedCategory!,
       priority: priority,
       price: price,
-      isChecked: isPurchased,
+      isPurchased: isPurchased,
       createdBy: createdBy,
       createdAt: DateTime.now(),
     );
@@ -82,7 +82,7 @@ class AddEditItemViewModel extends ChangeNotifier {
     selectedCategory = item.category;
     priority = item.priority;
     priceController.text = item.price?.toString() ?? '';
-    purchasedController.value = item.isChecked;
+    purchasedController.value = item.isPurchased;
   }
 
   @override
