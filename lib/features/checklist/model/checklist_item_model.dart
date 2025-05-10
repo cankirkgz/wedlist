@@ -31,29 +31,10 @@ class ChecklistItem {
     print("Dönüştürülmüş isPurchased değeri: $isPurchased");
     print("-------------------");
 
-    // Kategori standardizasyonu
-    String standardizeCategory(String category) {
-      final Map<String, String> categoryMap = {
-        'Mutfak': 'Mutfak',
-        'Banyo': 'Banyo',
-        'Yatak Odası': 'Yatak Odası',
-        'Salon': 'Salon',
-        'Çalışma Odası': 'Çalışma Odası',
-        'Balkon / Bahçe': 'Balkon / Bahçe',
-        'Elektronik': 'Elektronik',
-        'Temizlik Ürünleri': 'Temizlik Ürünleri',
-        'Kişisel Bakım': 'Kişisel Bakım',
-        'Dekorasyon': 'Dekorasyon',
-        'Diğer': 'Diğer',
-      };
-
-      return categoryMap[category] ?? 'Diğer';
-    }
-
     return ChecklistItem(
       id: id,
       name: map['name'] as String? ?? '',
-      category: standardizeCategory(map['category'] as String? ?? 'Diğer'),
+      category: map['category'] as String? ?? '',
       priority: map['priority'] as int? ?? 1,
       price: (map['price'] as num?)?.toDouble(),
       isPurchased: isPurchased,
