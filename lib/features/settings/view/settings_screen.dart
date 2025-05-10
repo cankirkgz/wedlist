@@ -78,7 +78,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
 
               return SingleChildScrollView(
-                padding: EdgeInsets.all(AppSizes.paddingLg),
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSizes.paddingLg,
+                  horizontal: AppSizes.paddingXl,
+                ),
                 child: Column(
                   children: [
                     /// 📌 Room Code
@@ -156,28 +159,27 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           ),
                     ),
                     SettingsCard(
-                      title: "Danger Zone",
+                      title: t.dangerZone,
                       child: Column(
                         children: [
                           CustomPrimaryButton(
-                            text: "Leave Room",
+                            text: t.leaveRoom,
                             onTap: () async {
                               final confirmed = await showDialog<bool>(
                                 context: context,
                                 builder: (ctx) => AlertDialog(
-                                  title: const Text("Are you sure?"),
-                                  content:
-                                      const Text("You will leave the room."),
+                                  title: Text(t.confirmLeave),
+                                  content: Text(t.leaveRoomWarning),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(ctx).pop(false),
-                                      child: const Text("Cancel"),
+                                      child: Text(t.cancel),
                                     ),
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(ctx).pop(true),
-                                      child: const Text("Leave"),
+                                      child: Text(t.leave),
                                     ),
                                   ],
                                 ),
@@ -195,24 +197,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                           ),
                           SizedBox(height: AppSizes.heightXxs),
                           CustomPrimaryButton(
-                            text: "Delete Room",
+                            text: t.deleteRoom,
                             onTap: () async {
                               final confirmed = await showDialog<bool>(
                                 context: context,
                                 builder: (ctx) => AlertDialog(
-                                  title: const Text("Delete Room?"),
-                                  content: const Text(
-                                      "This action is irreversible."),
+                                  title: Text(t.deleteRoomConfirm),
+                                  content: Text(t.irreversibleAction),
                                   actions: [
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(ctx).pop(false),
-                                      child: const Text("Cancel"),
+                                      child: Text(t.cancel),
                                     ),
                                     TextButton(
                                       onPressed: () =>
                                           Navigator.of(ctx).pop(true),
-                                      child: const Text("Delete"),
+                                      child: Text(t.delete),
                                     ),
                                   ],
                                 ),

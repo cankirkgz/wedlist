@@ -22,8 +22,12 @@ class CustomDropdownField extends StatelessWidget {
     return GestureDetector(
       onTap: () => _showBottomSheet(context),
       child: Container(
-        height: AppSizes.heightXl,
-        padding: EdgeInsets.symmetric(horizontal: AppSizes.paddingMd),
+        constraints:
+            const BoxConstraints(minHeight: 56), // TextField ile uyumlu
+        padding: EdgeInsets.symmetric(
+          horizontal: AppSizes.paddingMd,
+          vertical: AppSizes.paddingMd,
+        ),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),

@@ -107,7 +107,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                       horizontal: AppSizes.paddingXl,
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         // Başlık ve çıkış
                         Row(
@@ -153,7 +153,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                             ),
                           ],
                         ),
-                        const Divider(color: AppColors.lightGrey, height: 24),
+                        const Divider(color: AppColors.lightGrey),
                         SizedBox(height: AppSizes.paddingXs),
                         // Finansal kartlar
                         Row(

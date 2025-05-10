@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
@@ -64,14 +65,12 @@ class _ItemCardState extends State<ItemCard> {
       child: Opacity(
         opacity: isBought ? 0.5 : 1,
         child: Container(
-          margin:
-              const EdgeInsets.symmetric(vertical: 10), // spacing between items
-          padding: const EdgeInsets.all(12),
-          constraints: BoxConstraints(
-              minHeight: AppSizes.heightSemiHuge), // increased height
+          margin: EdgeInsets.symmetric(vertical: 8.h),
+          padding: EdgeInsets.all(8.w),
+          constraints: BoxConstraints(minHeight: 80.h),
           decoration: BoxDecoration(
             color: AppColors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.05),
@@ -81,28 +80,28 @@ class _ItemCardState extends State<ItemCard> {
             ],
           ),
           child: Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.center, // checkbox vertical center
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(width: 8.w),
               GestureDetector(
                 onTap: () {
                   setState(() => isBought = !isBought);
                   widget.onCheckToggle(isBought);
                 },
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: 24.w,
+                  height: 24.w,
                   decoration: BoxDecoration(
                     color: isBought ? AppColors.blue : Colors.transparent,
                     border: Border.all(color: AppColors.primaryText),
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                   child: isBought
                       ? const Icon(Icons.check, color: Colors.white, size: 16)
                       : null,
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 8.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,32 +110,32 @@ class _ItemCardState extends State<ItemCard> {
                     Text(
                       widget.name,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.textBlack,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 2.h),
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 4,
-                            horizontal: 8,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 3.h,
+                            horizontal: 6.w,
                           ),
                           decoration: BoxDecoration(
                             color: AppColors.buttonSoftPrimary,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Text(
                             widget.category,
-                            style: const TextStyle(
-                              fontSize: 12,
+                            style: TextStyle(
+                              fontSize: 11.sp,
                               color: AppColors.primaryText,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 6.w),
                         RatingBarIndicator(
                           rating: widget.rating,
                           itemBuilder: (context, _) => const Icon(
@@ -144,7 +143,7 @@ class _ItemCardState extends State<ItemCard> {
                             color: Colors.amber,
                           ),
                           itemCount: 5,
-                          itemSize: 18.0,
+                          itemSize: 16.w,
                           unratedColor: AppColors.lightGrey,
                         ),
                       ],
@@ -152,12 +151,13 @@ class _ItemCardState extends State<ItemCard> {
                   ],
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 8.w),
               Text(
                 '₺${widget.price.toStringAsFixed(0)}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColors.primaryText,
                   fontWeight: FontWeight.bold,
+                  fontSize: 14.sp,
                 ),
               ),
             ],

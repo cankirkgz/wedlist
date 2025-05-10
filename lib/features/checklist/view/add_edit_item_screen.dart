@@ -45,7 +45,6 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
 
   void _saveItem(AppLocalizations t) async {
     final viewModel = ref.read(addEditItemViewModelProvider);
-    final authViewModel = ref.read(authProvider.notifier);
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
     if (userId == null) {

@@ -6,7 +6,7 @@ import 'package:wedlist/features/auth/view/welcome_screen.dart';
 import 'package:wedlist/features/auth/view/create_room_screen.dart';
 import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 import 'package:wedlist/features/checklist/view/checklist_screen.dart';
-import 'package:wedlist/features/checklist/view/add_edit_item_sheet.dart';
+import 'package:wedlist/features/checklist/view/add_edit_item_screen.dart';
 import 'package:wedlist/features/room/view/join_room_screen.dart';
 import 'package:wedlist/features/room/view/room_created_screen.dart';
 import 'package:wedlist/features/settings/view/settings_screen.dart';

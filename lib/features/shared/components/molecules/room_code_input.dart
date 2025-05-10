@@ -60,13 +60,11 @@ class _RoomCodeInputState extends State<RoomCodeInput> {
         return Padding(
           padding: EdgeInsets.only(left: i == 0 ? 0 : AppSizes.paddingSm),
           child: SizedBox(
-            width: AppSizes.widthMd,
-            height: AppSizes.heightMd,
+            width: AppSizes.widthSm,
+            height: AppSizes.heightXl,
             child: TextField(
               controller: _controllers[i],
               focusNode: _focusNodes[i],
-              textAlign: TextAlign.center,
-              style: const TextStyle(letterSpacing: 2),
               keyboardType: TextInputType.text,
               textInputAction: i == widget.length - 1
                   ? TextInputAction.done
