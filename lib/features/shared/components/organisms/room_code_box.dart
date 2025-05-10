@@ -23,7 +23,7 @@ class RoomCodeBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusLg),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(AppSizes.paddingXl),
+        padding: EdgeInsets.all(AppSizes.paddingXl),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

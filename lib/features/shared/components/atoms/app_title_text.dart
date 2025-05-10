@@ -12,8 +12,6 @@ class AppTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        GestureDetector(
-            onTap: () {}, child: Image.asset('assets/icons/info.png')),
         Text(
           text,
           style: GoogleFonts.inter(

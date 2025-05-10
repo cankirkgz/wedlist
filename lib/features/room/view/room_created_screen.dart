@@ -30,7 +30,7 @@ class RoomCreatedScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               vertical: AppSizes.paddingLg,
               horizontal: AppSizes.paddingXl,
             ),
@@ -41,12 +41,12 @@ class RoomCreatedScreen extends StatelessWidget {
                   'assets/images/done.png',
                   width: AppSizes.imageSizeMd,
                 ),
-                const SizedBox(height: AppSizes.paddingXxl),
+                SizedBox(height: AppSizes.paddingXxl),
                 ScreenHeader(
                   title: t.youreAllSet,
                   subTitle: t.shareCodeWithPartner,
                 ),
-                const SizedBox(height: AppSizes.paddingXxl),
+                SizedBox(height: AppSizes.paddingXxl),
                 RoomCodeBox(roomId: roomId), // roomId ile gösterim
                 const Spacer(),
                 CustomPrimaryButton(
@@ -60,8 +60,8 @@ class RoomCreatedScreen extends StatelessWidget {
                           fontWeight: AppSizes.weightBold,
                         ),
                       ),
-                      const SizedBox(width: AppSizes.paddingXs),
-                      const Icon(
+                      SizedBox(width: AppSizes.paddingXs),
+                      Icon(
                         Icons.arrow_forward,
                         color: AppColors.white,
                         size: AppSizes.iconSizeMd,

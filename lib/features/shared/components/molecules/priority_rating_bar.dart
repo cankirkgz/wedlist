@@ -30,7 +30,7 @@ class PriorityRatingBar extends StatelessWidget {
             color: AppColors.textBlack,
           ),
         ),
-        const SizedBox(height: AppSizes.paddingXs),
+        SizedBox(height: AppSizes.paddingXs),
         RatingBar.builder(
           initialRating: value.toDouble(),
           minRating: 1,
@@ -48,7 +48,7 @@ class PriorityRatingBar extends StatelessWidget {
             onChanged(rating.toInt());
           },
         ),
-        const SizedBox(height: AppSizes.paddingXs),
+        SizedBox(height: AppSizes.paddingXs),
         Text(
           t.priorityQuestion,
           style: GoogleFonts.inter(

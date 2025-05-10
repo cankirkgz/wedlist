@@ -20,14 +20,14 @@ class RoomCodeDisplay extends StatelessWidget {
         color: AppColors.softBackground,
         borderRadius: BorderRadius.circular(AppSizes.radiusSm),
       ),
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
           horizontal: AppSizes.widthXxs, vertical: AppSizes.heightXxs),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             roomCode,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: AppSizes.fontXl,
               fontWeight: FontWeight.bold,
               color: AppColors.textBlack,
@@ -88,7 +88,7 @@ class _IconBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusMd),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(AppSizes.paddingSm),
+          padding: EdgeInsets.all(AppSizes.paddingSm),
           child: Icon(icon, color: iconColor, size: AppSizes.fontXl),
         ),
       ),

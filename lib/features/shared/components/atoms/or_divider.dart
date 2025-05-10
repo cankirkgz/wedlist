@@ -19,8 +19,8 @@ class OrDivider extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: AppSizes.paddingSm),
-          padding: const EdgeInsets.symmetric(
+          margin: EdgeInsets.symmetric(horizontal: AppSizes.paddingSm),
+          padding: EdgeInsets.symmetric(
             horizontal: AppSizes.paddingSm,
             vertical: 2,
           ),

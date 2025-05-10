@@ -60,7 +60,7 @@ class FilterChecklistSheet extends ConsumerWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSizes.paddingLg),
+          SizedBox(height: AppSizes.paddingLg),
           Align(
               alignment: Alignment.centerLeft,
               child: Text(t.category,
@@ -68,7 +68,7 @@ class FilterChecklistSheet extends ConsumerWidget {
                       fontSize: AppSizes.fontMd,
                       fontWeight: FontWeight.w500,
                       color: AppColors.softTextBlack))),
-          const SizedBox(height: AppSizes.paddingSm),
+          SizedBox(height: AppSizes.paddingSm),
           Wrap(
             spacing: 12,
             runSpacing: 12,
@@ -81,7 +81,7 @@ class FilterChecklistSheet extends ConsumerWidget {
               );
             }).toList(),
           ),
-          const SizedBox(height: AppSizes.paddingXl),
+          SizedBox(height: AppSizes.paddingXl),
           Align(
               alignment: Alignment.centerLeft,
               child: Text(t.priority,
@@ -89,7 +89,7 @@ class FilterChecklistSheet extends ConsumerWidget {
                       fontSize: AppSizes.fontMd,
                       fontWeight: FontWeight.w500,
                       color: AppColors.softTextBlack))),
-          const SizedBox(height: AppSizes.paddingSm),
+          SizedBox(height: AppSizes.paddingSm),
           Wrap(
             spacing: 12,
             runSpacing: 12,
@@ -102,7 +102,7 @@ class FilterChecklistSheet extends ConsumerWidget {
               );
             }),
           ),
-          const SizedBox(height: AppSizes.paddingXl),
+          SizedBox(height: AppSizes.paddingXl),
           Align(
               alignment: Alignment.centerLeft,
               child: Text(t.purchaseStatus,
@@ -110,7 +110,7 @@ class FilterChecklistSheet extends ConsumerWidget {
                       fontSize: AppSizes.fontMd,
                       fontWeight: FontWeight.w500,
                       color: AppColors.softTextBlack))),
-          const SizedBox(height: AppSizes.paddingSm),
+          SizedBox(height: AppSizes.paddingSm),
           Row(
             children: [
               Expanded(
@@ -118,7 +118,7 @@ class FilterChecklistSheet extends ConsumerWidget {
                       selected: filter.status == PurchaseStatus.purchased,
                       onPressed: () =>
                           filterVM.setStatus(PurchaseStatus.purchased))),
-              const SizedBox(width: AppSizes.paddingMd),
+              SizedBox(width: AppSizes.paddingMd),
               Expanded(
                   child: _buildStatusButton(t.notPurchased,
                       selected: filter.status == PurchaseStatus.notPurchased,
@@ -126,14 +126,14 @@ class FilterChecklistSheet extends ConsumerWidget {
                           filterVM.setStatus(PurchaseStatus.notPurchased))),
             ],
           ),
-          const SizedBox(height: AppSizes.paddingXl),
+          SizedBox(height: AppSizes.paddingXl),
           CustomPrimaryButton(
               text: t.resetFilter,
               color: AppColors.lightGrey,
               textColor: AppColors.boldGreyText,
               hasShadow: false,
               onTap: () => filterVM.reset()),
-          const SizedBox(height: AppSizes.paddingMd),
+          SizedBox(height: AppSizes.paddingMd),
           CustomPrimaryButton(
               text: t.applyFilter,
               hasShadow: false,

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppSizes {
   // Font Sizes
-  static const double fontXs = 10.0;
-  static const double fontSm = 12.0;
-  static const double fontMd = 14.0;
-  static const double fontLg = 16.0;
-  static const double fontXl = 20.0;
-  static const double fontXxl = 24.0;
-  static const double fontHuge = 32.0;
+  static double get fontXs => 10.sp;
+  static double get fontSm => 12.sp;
+  static double get fontMd => 14.sp;
+  static double get fontLg => 16.sp;
+  static double get fontXl => 20.sp;
+  static double get fontXxl => 24.sp;
+  static double get fontHuge => 32.sp;
 
   // Font Weights
   static const FontWeight weightLight = FontWeight.w300;
@@ -19,96 +20,96 @@ class AppSizes {
   static const FontWeight weightExtraBold = FontWeight.w800;
 
   // Border Radius
-  static const double radiusSm = 6.0;
-  static const double radiusMd = 10.0;
-  static const double radiusLg = 14.0;
-  static const double radiusXl = 20.0;
-  static const double radiusCircle = 999.0;
+  static double get radiusSm => 6.r;
+  static double get radiusMd => 10.r;
+  static double get radiusLg => 14.r;
+  static double get radiusXl => 20.r;
+  static double get radiusCircle => 999.r;
 
-  // Border with
-  static const double borderWidthMd = 1.0;
-  static const double borderWidthLg = 2.0;
-  static const double borderWidthXl = 3.0;
+  // Border Widths
+  static double get borderWidthMd => 1.w;
+  static double get borderWidthLg => 2.w;
+  static double get borderWidthXl => 3.w;
 
   // Padding
-  static const double paddingXs = 4.0;
-  static const double paddingSm = 8.0;
-  static const double paddingMd = 16.0;
-  static const double paddingLg = 20.0;
-  static const double paddingXl = 24.0;
-  static const double paddingXxl = 32.0;
-  static const double paddingHuge = 64.0;
+  static double get paddingXs => 4.w;
+  static double get paddingSm => 8.w;
+  static double get paddingMd => 16.w;
+  static double get paddingLg => 20.w;
+  static double get paddingXl => 24.w;
+  static double get paddingXxl => 32.w;
+  static double get paddingHuge => 64.w;
 
   // Symmetric Padding Helpers
-  static const EdgeInsets horizontalPaddingSm =
+  static EdgeInsets get horizontalPaddingSm =>
       EdgeInsets.symmetric(horizontal: paddingSm);
-  static const EdgeInsets horizontalPaddingMd =
+  static EdgeInsets get horizontalPaddingMd =>
       EdgeInsets.symmetric(horizontal: paddingMd);
-  static const EdgeInsets horizontalPaddingLg =
+  static EdgeInsets get horizontalPaddingLg =>
       EdgeInsets.symmetric(horizontal: paddingLg);
 
-  static const EdgeInsets verticalPaddingSm =
+  static EdgeInsets get verticalPaddingSm =>
       EdgeInsets.symmetric(vertical: paddingSm);
-  static const EdgeInsets verticalPaddingMd =
+  static EdgeInsets get verticalPaddingMd =>
       EdgeInsets.symmetric(vertical: paddingMd);
-  static const EdgeInsets verticalPaddingLg =
+  static EdgeInsets get verticalPaddingLg =>
       EdgeInsets.symmetric(vertical: paddingLg);
 
   // All Padding Helpers
-  static const EdgeInsets paddingAllSm = EdgeInsets.all(paddingSm);
-  static const EdgeInsets paddingAllMd = EdgeInsets.all(paddingMd);
-  static const EdgeInsets paddingAllLg = EdgeInsets.all(paddingLg);
+  static EdgeInsets get paddingAllSm => EdgeInsets.all(paddingSm);
+  static EdgeInsets get paddingAllMd => EdgeInsets.all(paddingMd);
+  static EdgeInsets get paddingAllLg => EdgeInsets.all(paddingLg);
 
   // SizedBoxes
-  static const SizedBox gap4 = SizedBox(height: 4.0, width: 4.0);
-  static const SizedBox gap8 = SizedBox(height: 8.0, width: 8.0);
-  static const SizedBox gap12 = SizedBox(height: 12.0, width: 12.0);
-  static const SizedBox gap16 = SizedBox(height: 16.0, width: 16.0);
-  static const SizedBox gap24 = SizedBox(height: 24.0, width: 24.0);
-  static const SizedBox gap32 = SizedBox(height: 32.0, width: 32.0);
+  static SizedBox get gap4 => SizedBox(width: 4.w, height: 4.h);
+  static SizedBox get gap8 => SizedBox(width: 8.w, height: 8.h);
+  static SizedBox get gap12 => SizedBox(width: 12.w, height: 12.h);
+  static SizedBox get gap16 => SizedBox(width: 16.w, height: 16.h);
+  static SizedBox get gap24 => SizedBox(width: 24.w, height: 24.h);
+  static SizedBox get gap32 => SizedBox(width: 32.w, height: 32.h);
 
-  // Elevation (Shadow Depth)
-  static const double elevationLow = 2.0;
-  static const double elevationMed = 4.0;
-  static const double elevationHigh = 8.0;
+  // Elevation
+  static double get elevationLow => 2;
+  static double get elevationMed => 4;
+  static double get elevationHigh => 8;
 
   // Heights
-  static const double heightXxs = 20.0;
-  static const double heightXs = 32.0;
-  static const double heightSm = 40.0;
-  static const double heightMd = 48.0;
-  static const double heightLg = 56.0;
-  static const double heightXl = 64.0;
-  static const double heightXxl = 80.0;
-  static const double heightSemiHuge = 100.0;
-  static const double heightHuge = 160.0;
+  static double get heightXxs => 20.h;
+  static double get heightXs => 32.h;
+  static double get heightSm => 40.h;
+  static double get heightMd => 48.h;
+  static double get heightLg => 56.h;
+  static double get heightXl => 64.h;
+  static double get heightXxl => 80.h;
+  static double get heightSemiHuge => 100.h;
+  static double get heightHuge => 160.h;
 
   // Widths
-  static const double widthXxs = 20.0;
-  static const double widthXs = 32.0;
-  static const double widthSm = 40.0;
-  static const double widthMd = 48.0;
-  static const double widthLg = 56.0;
-  static const double widthXl = 64.0;
-  static const double widthXxl = 80.0;
+  static double get widthXxs => 20.w;
+  static double get widthXs => 32.w;
+  static double get widthSm => 40.w;
+  static double get widthMd => 48.w;
+  static double get widthLg => 56.w;
+  static double get widthXl => 64.w;
+  static double get widthXxl => 80.w;
 
   // Image Sizes
-  static const double imageSizeXs = 40.0;
-  static const double imageSizeSm = 64.0;
-  static const double imageSizeMd = 100.0;
-  static const double imageSizeLg = 160.0;
-  static const double imageSizeXl = 240.0;
+  static double get imageSizeXs => 40.w;
+  static double get imageSizeSm => 64.w;
+  static double get imageSizeMd => 100.w;
+  static double get imageSizeLg => 160.w;
+  static double get imageSizeXl => 240.w;
 
   // Letter Spacing
-  static const double letterSpacingXs = 2.0;
-  static const double letterSpacingSm = 4.0;
-  static const double letterSpacingMD = 6.0;
-  static const double letterSpacingLg = 8.0;
-  static const double letterSpacingXl = 10.0;
+  static double get letterSpacingXs => 2.w;
+  static double get letterSpacingSm => 4.w;
+  static double get letterSpacingMd => 6.w;
+  static double get letterSpacingLg => 8.w;
+  static double get letterSpacingXl => 10.w;
 
   // Icon Sizes
-  static const double iconSizeSm = 16.0;
-  static const double iconSizeMd = 24.0;
-  static const double iconSizeLg = 32.0;
-  static const double iconSizeXl = 48.0;
+  static double get iconSizeSm => 16.w;
+  static double get iconSizeMd => 24.w;
+  static double get iconSizeLg => 32.w;
+  static double get iconSizeXl => 48.w;
 }

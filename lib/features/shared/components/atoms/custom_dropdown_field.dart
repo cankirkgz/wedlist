@@ -23,7 +23,7 @@ class CustomDropdownField extends StatelessWidget {
       onTap: () => _showBottomSheet(context),
       child: Container(
         height: AppSizes.heightXl,
-        padding: const EdgeInsets.symmetric(horizontal: AppSizes.paddingMd),
+        padding: EdgeInsets.symmetric(horizontal: AppSizes.paddingMd),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),
@@ -38,7 +38,7 @@ class CustomDropdownField extends StatelessWidget {
             Expanded(
               child: Text(
                 selectedValue ?? t.selectAnOption,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: AppSizes.fontMd,
                   color: AppColors.textBlack,
                 ),
@@ -57,7 +57,7 @@ class CustomDropdownField extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (_) => ListView(
-        padding: const EdgeInsets.all(AppSizes.paddingMd),
+        padding: EdgeInsets.all(AppSizes.paddingMd),
         children: items.map((item) {
           return ListTile(
             title: Text(item),

@@ -44,27 +44,27 @@ class _CustomTextFieldState extends State<CustomTextField> {
         hintStyle: const TextStyle(color: AppColors.hintGrey),
         filled: true,
         fillColor: AppColors.white,
-        contentPadding: const EdgeInsets.symmetric(
+        contentPadding: EdgeInsets.symmetric(
           horizontal: AppSizes.paddingMd,
           vertical: AppSizes.paddingLg,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: AppColors.borderGrey,
             width: AppSizes.borderWidthLg,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: AppColors.borderGrey,
             width: AppSizes.borderWidthLg,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusLg),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: AppColors.borderGrey,
             width: AppSizes.borderWidthLg,
           ),

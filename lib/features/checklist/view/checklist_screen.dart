@@ -15,6 +15,7 @@ import 'package:wedlist/features/shared/components/molecules/custom_gradient_pro
 import 'package:wedlist/features/shared/components/molecules/financial_status_card.dart';
 import 'package:wedlist/features/shared/components/molecules/item_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 @RoutePage()
 class ChecklistScreen extends ConsumerStatefulWidget {
@@ -31,11 +32,25 @@ class ChecklistScreen extends ConsumerStatefulWidget {
 
 class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
   late final TextEditingController _controller;
+  late BannerAd _bannerAd;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
+
+    _bannerAd = BannerAd(
+      adUnitId: 'ca-app-pub-3195576697663098/1913688170',
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) => debugPrint('Ad loaded'),
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          debugPrint('Ad failed to load: $error');
+        },
+      ),
+    )..load();
 
     // Oda kodunu bir kez ayarla
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -46,6 +61,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
   @override
   void dispose() {
     _controller.dispose();
+    _bannerAd.dispose();
     super.dispose();
   }
 
@@ -74,119 +90,125 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              // ÜST BAR
-              Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.white,
-                  border: Border(
-                    bottom: BorderSide(color: AppColors.lightGrey, width: 1),
+          child: CustomScrollView(
+            slivers: [
+              /// 🟩 ÜST BAR (başlık + finans kartları + arama)
+              SliverToBoxAdapter(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: AppColors.white,
+                    border: Border(
+                      bottom: BorderSide(color: AppColors.lightGrey, width: 1),
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppSizes.paddingLg,
-                    horizontal: AppSizes.paddingXl,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Başlık ve çıkış
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          roomAsync.when(
-                            data: (room) => Text(
-                              room?.roomName ?? t.checklist,
-                              style: GoogleFonts.inter(
-                                fontSize: AppSizes.fontXl,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primaryText,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: AppSizes.paddingLg,
+                      horizontal: AppSizes.paddingXl,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Başlık ve çıkış
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            roomAsync.when(
+                              data: (room) => Expanded(
+                                child: Text(
+                                  room?.roomName ?? t.checklist,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.inter(
+                                    fontSize: AppSizes.fontLg,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primaryText,
+                                  ),
+                                ),
+                              ),
+                              loading: () => Text(t.loading),
+                              error: (e, _) => Text(t.error),
+                            ),
+                            Flexible(
+                              flex: 0,
+                              child: PopupMenuButton<String>(
+                                icon: const Icon(Icons.more_vert,
+                                    color: AppColors.primaryText),
+                                onSelected: (value) async {
+                                  if (value == 'settings') {
+                                    context.router.push(const SettingsRoute());
+                                  } else if (value == 'logout') {
+                                    await authVM.signOut();
+                                    context.router.replace(const AuthRoute());
+                                  }
+                                },
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                      value: 'settings',
+                                      child: Text(t.settings)),
+                                  PopupMenuItem(
+                                      value: 'logout', child: Text(t.logout)),
+                                ],
                               ),
                             ),
-                            loading: () => Text(t.loading),
-                            error: (e, _) => Text(t.error),
-                          ),
-                          PopupMenuButton<String>(
-                            icon: const Icon(Icons.more_vert,
-                                color: AppColors.primaryText),
-                            onSelected: (value) async {
-                              if (value == 'settings') {
-                                context.router.push(const SettingsRoute());
-                              } else if (value == 'logout') {
-                                await authVM.signOut();
-                                context.router.replace(const AuthRoute());
-                              }
-                            },
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                  value: 'settings', child: Text(t.settings)),
-                              PopupMenuItem(
-                                  value: 'logout', child: Text(t.logout)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const Divider(color: AppColors.lightGrey, height: 24),
-                      const SizedBox(height: AppSizes.paddingLg),
-
-                      // Finans kartları
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: FinancialStatusCard(
-                                iconAssetPath: "assets/icons/check.png",
-                                title: t.spent,
-                                amount: spent,
-                                backgroundColor: AppColors.softPrimary,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: FinancialStatusCard(
-                                iconAssetPath: "assets/icons/hour.png",
-                                title: t.remaining,
-                                amount: remaining,
-                                backgroundColor: AppColors.softBlue,
-                                footer: CustomGradientProgressBar(
-                                  percentage: remainingPercent,
+                          ],
+                        ),
+                        const Divider(color: AppColors.lightGrey, height: 24),
+                        SizedBox(height: AppSizes.paddingXs),
+                        // Finansal kartlar
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: FinancialStatusCard(
+                                  iconAssetPath: "assets/icons/check.png",
+                                  title: t.spent,
+                                  amount: spent,
+                                  backgroundColor: AppColors.softPrimary,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: AppSizes.paddingLg),
-
-                      // Arama ve Filtre
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SearchItems(
-                              controller: _controller,
-                              onChanged: checklistVM.setSearchQuery,
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: FinancialStatusCard(
+                                  iconAssetPath: "assets/icons/hour.png",
+                                  title: t.remaining,
+                                  amount: remaining,
+                                  backgroundColor: AppColors.softBlue,
+                                  footer: CustomGradientProgressBar(
+                                    percentage: remainingPercent,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 12),
-                          const FilterButton(),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                        SizedBox(height: AppSizes.paddingLg),
+                        // Arama ve Filtre
+                        Row(
+                          children: [
+                            Expanded(
+                              child: SearchItems(
+                                controller: _controller,
+                                onChanged: checklistVM.setSearchQuery,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            const FilterButton(),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
 
-              // Liste
-              Expanded(
-                child: ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
+              /// 🟦 ÜRÜN LİSTESİ
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
                     final item = items[index];
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -212,6 +234,7 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                       ),
                     );
                   },
+                  childCount: items.length,
                 ),
               ),
             ],
@@ -231,6 +254,11 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
           shape: const CircleBorder(),
           child: const Icon(Icons.add, color: AppColors.white, size: 32),
         ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: _bannerAd.size.height.toDouble(),
+        width: _bannerAd.size.width.toDouble(),
+        child: AdWidget(ad: _bannerAd),
       ),
     );
   }

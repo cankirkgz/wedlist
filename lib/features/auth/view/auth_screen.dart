@@ -53,118 +53,123 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: AppSizes.paddingLg,
-              horizontal: AppSizes.paddingXl,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                AppTitleText(text: t.appTitle),
-                const SizedBox(height: AppSizes.paddingXxl),
-
-                // 🔘 Toggle Login / Signup
-                ValueListenableBuilder<int>(
-                  valueListenable: selectedIndex,
-                  builder: (_, value, __) => AnimatedToggleTab(
-                    selectedIndex: value,
-                    onTabChange: (i) => selectedIndex.value = i,
-                  ),
+          child: SingleChildScrollView(
+            // 👈 Burada kaydırma sağlıyoruz
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: AppSizes.paddingLg,
+                horizontal: AppSizes.paddingXl,
+              ),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height -
+                      AppSizes.paddingLg * 2,
                 ),
-                const SizedBox(height: AppSizes.paddingXxl),
-
-                // 🔐 Login / Signup form
-                ValueListenableBuilder<int>(
-                  valueListenable: selectedIndex,
-                  builder: (_, value, __) {
-                    if (value == 0) {
-                      return LoginScreen(
-                        emailController: emailController,
-                        passwordController: passwordController,
-                        isLoading: authState.isLoading,
-                        onForgotPassword: () =>
-                            context.router.push(const ForgotPasswordRoute()),
-                        onLoginTap: () async {
-                          final user = await authVM.signIn(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                            context,
-                          );
-
-                          if (user != null) {
-                            await authVM.handlePostLoginRouting(
-                                context); // 🔁 yönlendirme burada
-                          } else if (authState.error != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(authState.error!)),
-                            );
-                          }
-                        },
-                      );
-                    } else {
-                      return SignupScreen(
-                        emailController: emailController,
-                        passwordController: passwordController,
-                        nameController: nameController,
-                        isLoading: authState.isLoading,
-                        onSignupTap: () async {
-                          final user = await authVM.signUp(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                            nameController.text.trim(),
-                            context,
-                          );
-
-                          if (user != null) {
-                            await authVM.handlePostLoginRouting(context);
-                          } else if (authState.error != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(authState.error!)),
-                            );
-                          }
-                        },
-                      );
-                    }
-                  },
-                ),
-                const SizedBox(height: AppSizes.paddingXxl),
-
-                const OrDivider(),
-                const SizedBox(height: AppSizes.paddingXxl),
-
-                CustomPrimaryButton(
-                  text: "Google ile devam et",
-                  color: AppColors.white,
-                  hasBorder: true,
-                  hasShadow: false,
-                  isLoading: false,
-                  widget: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: IntrinsicHeight(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/icons/google.png'),
-                      const SizedBox(width: AppSizes.paddingSm),
-                      Text(
-                        t.continueWithGoogle,
-                        style: GoogleFonts.inter(
-                          color: AppColors.textBlack,
-                          fontSize: AppSizes.fontXl,
-                          fontWeight: AppSizes.weightBold,
+                      AppTitleText(text: t.appTitle),
+                      SizedBox(height: AppSizes.paddingXxl),
+                      // 🔘 Toggle Login / Signup
+                      ValueListenableBuilder<int>(
+                        valueListenable: selectedIndex,
+                        builder: (_, value, __) => AnimatedToggleTab(
+                          selectedIndex: value,
+                          onTabChange: (i) => selectedIndex.value = i,
                         ),
+                      ),
+                      SizedBox(height: AppSizes.paddingXxl),
+                      // 🔐 Login / Signup form
+                      ValueListenableBuilder<int>(
+                        valueListenable: selectedIndex,
+                        builder: (_, value, __) {
+                          if (value == 0) {
+                            return LoginScreen(
+                              emailController: emailController,
+                              passwordController: passwordController,
+                              isLoading: authState.isLoading,
+                              onForgotPassword: () => context.router
+                                  .push(const ForgotPasswordRoute()),
+                              onLoginTap: () async {
+                                final user = await authVM.signIn(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim(),
+                                  context,
+                                );
+                                if (user != null) {
+                                  await authVM.handlePostLoginRouting(context);
+                                } else if (authState.error != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(authState.error!)),
+                                  );
+                                }
+                              },
+                            );
+                          } else {
+                            return SignupScreen(
+                              emailController: emailController,
+                              passwordController: passwordController,
+                              nameController: nameController,
+                              isLoading: authState.isLoading,
+                              onSignupTap: () async {
+                                final user = await authVM.signUp(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim(),
+                                  nameController.text.trim(),
+                                  context,
+                                );
+                                if (user != null) {
+                                  await authVM.handlePostLoginRouting(context);
+                                } else if (authState.error != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(authState.error!)),
+                                  );
+                                }
+                              },
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(height: AppSizes.paddingXxl),
+                      const OrDivider(),
+                      SizedBox(height: AppSizes.paddingXxl),
+
+                      CustomPrimaryButton(
+                        text: "Google ile devam et",
+                        color: AppColors.white,
+                        hasBorder: true,
+                        hasShadow: false,
+                        isLoading: false,
+                        widget: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/icons/google.png'),
+                            SizedBox(width: AppSizes.paddingSm),
+                            Text(
+                              t.continueWithGoogle,
+                              style: GoogleFonts.inter(
+                                color: AppColors.textBlack,
+                                fontSize: AppSizes.fontXl,
+                                fontWeight: AppSizes.weightBold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onTap: () async {
+                          final user = await authVM.signInWithGoogle(context);
+                          if (user == null && authState.error != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(authState.error!)),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
-                  onTap: () async {
-                    final user = await authVM.signInWithGoogle(context);
-                    if (user == null && authState.error != null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(authState.error!)),
-                      );
-                    }
-                  },
                 ),
-              ],
+              ),
             ),
           ),
         ),

@@ -32,7 +32,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
+            padding: EdgeInsets.symmetric(
               vertical: AppSizes.paddingLg,
               horizontal: AppSizes.paddingXl,
             ),
@@ -42,7 +42,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 AppTitleText(text: t.appTitle),
-                const SizedBox(height: AppSizes.paddingXxl),
+                SizedBox(height: AppSizes.paddingXxl),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: InkWell(
@@ -53,7 +53,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Icon(Icons.arrow_back),
-                        const SizedBox(width: AppSizes.paddingSm),
+                        SizedBox(width: AppSizes.paddingSm),
                         Text(
                           t.backToLogin,
                           style: GoogleFonts.inter(
@@ -65,7 +65,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: AppSizes.paddingLg),
+                SizedBox(height: AppSizes.paddingLg),
                 Text(
                   t.resetPasswordTitle,
                   style: GoogleFonts.inter(
@@ -74,7 +74,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
                     color: AppColors.textBlack,
                   ),
                 ),
-                const SizedBox(height: AppSizes.paddingXs),
+                SizedBox(height: AppSizes.paddingXs),
                 Text(
                   t.resetPasswordDescription,
                   style: GoogleFonts.inter(
@@ -83,13 +83,13 @@ class ForgotPasswordScreen extends ConsumerWidget {
                   ),
                   textAlign: TextAlign.start,
                 ),
-                const SizedBox(height: AppSizes.paddingXl),
+                SizedBox(height: AppSizes.paddingXl),
                 LabeledTextField(
                   label: t.email,
                   hintText: t.enterYourEmail,
                   controller: _emailController,
                 ),
-                const SizedBox(height: AppSizes.paddingXl),
+                SizedBox(height: AppSizes.paddingXl),
                 CustomPrimaryButton(
                   text: t.resetPasswordButton,
                   onTap: () async {

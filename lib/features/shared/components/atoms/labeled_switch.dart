@@ -29,7 +29,7 @@ class LabeledSwitch extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(width: AppSizes.paddingMd),
+        SizedBox(width: AppSizes.paddingMd),
         Text(
           label,
           style: GoogleFonts.inter(

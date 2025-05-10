@@ -94,7 +94,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
             vertical: AppSizes.paddingLg,
             horizontal: AppSizes.paddingXl,
           ),
@@ -107,7 +107,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                   hintText: t.productExample,
                   controller: viewModel.nameController,
                 ),
-                const SizedBox(height: AppSizes.paddingXl),
+                SizedBox(height: AppSizes.paddingXl),
                 LabeledDropdownField(
                   label: t.category,
                   selectedValue: viewModel.selectedCategory,
@@ -118,12 +118,12 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                     });
                   },
                 ),
-                const SizedBox(height: AppSizes.paddingXl),
+                SizedBox(height: AppSizes.paddingXl),
                 PriorityRatingBar(
                   value: viewModel.priority,
                   onChanged: (value) => viewModel.priority = value,
                 ),
-                const SizedBox(height: AppSizes.paddingXl),
+                SizedBox(height: AppSizes.paddingXl),
                 LabeledTextField(
                   label: t.priceOptional,
                   hintText: t.priceExample,
@@ -131,12 +131,12 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                   prefixIcon: Icons.currency_lira,
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: AppSizes.paddingXl),
+                SizedBox(height: AppSizes.paddingXl),
                 LabeledSwitch(
                   label: t.markAsPurchased,
                   controller: viewModel.purchasedController,
                 ),
-                const SizedBox(height: AppSizes.paddingXl * 2),
+                SizedBox(height: AppSizes.paddingXl * 2),
               ],
             ),
           ),
@@ -144,7 +144,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       ),
       bottomNavigationBar: Container(
         color: AppColors.white,
-        padding: const EdgeInsets.all(AppSizes.paddingLg),
+        padding: EdgeInsets.all(AppSizes.paddingLg),
         child: CustomPrimaryButton(
           text: t.save,
           onTap: () => _saveItem(t),

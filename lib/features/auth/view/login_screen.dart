@@ -33,14 +33,14 @@ class LoginScreen extends StatelessWidget {
           hintText: t.enterYourEmail,
           controller: emailController,
         ),
-        const SizedBox(height: AppSizes.paddingXxl),
+        SizedBox(height: AppSizes.paddingXxl),
         LabeledTextField(
           label: t.password,
           hintText: t.enterYourPassword,
           controller: passwordController,
           isPassword: true,
         ),
-        const SizedBox(height: AppSizes.paddingMd),
+        SizedBox(height: AppSizes.paddingMd),
         Align(
           alignment: Alignment.centerRight,
           child: ClickableText(
@@ -48,7 +48,7 @@ class LoginScreen extends StatelessWidget {
             onTap: onForgotPassword,
           ),
         ),
-        const SizedBox(height: AppSizes.paddingMd),
+        SizedBox(height: AppSizes.paddingMd),
         CustomPrimaryButton(
           text: t.login,
           onTap: onLoginTap,

@@ -37,7 +37,7 @@ class LabeledTextField extends StatelessWidget {
             color: AppColors.textBlack,
           ),
         ),
-        const SizedBox(height: AppSizes.paddingSm),
+        SizedBox(height: AppSizes.paddingSm),
         CustomTextField(
           hintText: hintText,
           controller: controller,

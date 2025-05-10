@@ -15,7 +15,7 @@ class RoomCodeText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: AppSizes.heightXxl * 1.2,
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         horizontal: AppSizes.paddingXl,
         vertical: AppSizes.paddingMd,
       ),

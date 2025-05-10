@@ -31,7 +31,7 @@ class LabeledDropdownField extends StatelessWidget {
             color: AppColors.textBlack,
           ),
         ),
-        const SizedBox(height: AppSizes.paddingSm),
+        SizedBox(height: AppSizes.paddingSm),
         CustomDropdownField(
           selectedValue: selectedValue,
           items: items,

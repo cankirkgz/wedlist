@@ -32,20 +32,20 @@ class SignupScreen extends StatelessWidget {
           hintText: t.enterYourEmail,
           controller: emailController,
         ),
-        const SizedBox(height: AppSizes.paddingXxl),
+        SizedBox(height: AppSizes.paddingXxl),
         LabeledTextField(
           label: t.password,
           hintText: t.enterYourPassword,
           controller: passwordController,
           isPassword: true,
         ),
-        const SizedBox(height: AppSizes.paddingXxl),
+        SizedBox(height: AppSizes.paddingXxl),
         LabeledTextField(
           label: t.name,
           hintText: t.enterYourName,
           controller: nameController,
         ),
-        const SizedBox(height: AppSizes.paddingLg),
+        SizedBox(height: AppSizes.paddingLg),
         CustomPrimaryButton(
           text: t.signUp,
           onTap: onSignupTap,

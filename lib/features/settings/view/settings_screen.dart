@@ -78,7 +78,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               }
 
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(AppSizes.paddingLg),
+                padding: EdgeInsets.all(AppSizes.paddingLg),
                 child: Column(
                   children: [
                     /// 📌 Room Code
@@ -88,7 +88,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           RoomCodeDisplay(roomCode: room.id),
-                          const SizedBox(height: AppSizes.heightXxs),
+                          SizedBox(height: AppSizes.heightXxs),
                           Text(
                             t.shareCodeWithPartner,
                             style: GoogleFonts.roboto(
@@ -193,7 +193,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                             textColor: AppColors.textBlack,
                             hasBorder: true,
                           ),
-                          const SizedBox(height: AppSizes.heightXxs),
+                          SizedBox(height: AppSizes.heightXxs),
                           CustomPrimaryButton(
                             text: "Delete Room",
                             onTap: () async {

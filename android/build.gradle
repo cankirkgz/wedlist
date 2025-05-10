@@ -4,7 +4,6 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        // Google Services plugin için gerekli classpath
         classpath 'com.google.gms:google-services:4.4.2'
     }
 }

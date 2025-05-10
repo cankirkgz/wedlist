@@ -26,8 +26,7 @@ class ScreenHeader extends StatelessWidget {
         ),
         SizedBox(height: AppSizes.paddingMd),
         Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: AppSizes.borderWidthMd),
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.borderWidthMd),
           child: Text(
             subTitle,
             textAlign: TextAlign.center,

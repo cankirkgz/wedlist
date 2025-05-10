@@ -10,7 +10,7 @@ class CategoryLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
+      padding: EdgeInsets.symmetric(
         vertical: AppSizes.paddingSm,
         horizontal: AppSizes.paddingMd,
       ),

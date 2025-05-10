@@ -67,7 +67,7 @@ class _ItemCardState extends State<ItemCard> {
           margin:
               const EdgeInsets.symmetric(vertical: 10), // spacing between items
           padding: const EdgeInsets.all(12),
-          constraints: const BoxConstraints(
+          constraints: BoxConstraints(
               minHeight: AppSizes.heightSemiHuge), // increased height
           decoration: BoxDecoration(
             color: AppColors.white,
