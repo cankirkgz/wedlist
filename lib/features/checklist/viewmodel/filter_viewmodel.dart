@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Satın alma durumları
 enum PurchaseStatus { all, purchased, notPurchased }
 
 class FilterState {
@@ -12,8 +13,6 @@ class FilterState {
     this.selectedPriority,
     this.status = PurchaseStatus.all,
   });
-
-  // copyWith ve diğer metodlar aynı kalacak
 
   FilterState copyWith({
     String? selectedCategory,
@@ -47,12 +46,6 @@ class FilterViewModel extends StateNotifier<FilterState> {
 
   void reset() {
     state = FilterState.initial();
-  }
-
-  void applyFilters() {
-    print("Selected Category: ${state.selectedCategory}");
-    print("Selected Priority: ${state.selectedPriority}");
-    print("Purchase Status: ${state.status}");
   }
 }
 

@@ -33,32 +33,27 @@ class RoomViewModel extends AsyncNotifier<RoomModel?> {
 
   /// ✅ Yeni oda oluştur
   Future<String?> createRoom(BuildContext context) async {
-    final t = AppLocalizations.of(context)!;
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) return null;
-
-    final roomCode = RoomService.generateRoomCode();
-
-    final room = RoomModel(
-      id: '',
-      roomName: t.defaultRoomName,
-      createdBy: currentUser.uid,
-      createdAt: DateTime.now(),
-      participants: [currentUser.uid],
-      totalItems: 0,
-      completedItems: 0,
-    );
-
-    final docRef = await _firestore.createRoom(room, roomCode);
-
-    await _firestore.updateUser(
-      userId: currentUser.uid,
-      data: {'roomId': docRef.id},
-    );
-
-    // 📌 State güncelle
-    state = AsyncValue.data(await _firestore.getRoomById(docRef.id));
-    return docRef.id;
+    try {
+      final currentUser = FirebaseAuth.instance.currentUser!;
+      final roomCode = RoomService.generateRoomCode();
+      final roomData = RoomModel(
+        id: '',
+        roomName: AppLocalizations.of(context)!.defaultRoomName,
+        createdBy: currentUser.uid,
+        createdAt: DateTime.now(),
+        participants: [currentUser.uid],
+        totalItems: 0,
+        completedItems: 0,
+      );
+      final docRef = await _firestore.createRoom(roomData, roomCode);
+      await _firestore
+          .updateUser(userId: currentUser.uid, data: {'roomId': docRef.id});
+      state = AsyncValue.data(await _firestore.getRoomById(docRef.id));
+      return docRef.id;
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      return null;
+    }
   }
 
   /// ✅ Var olan odaya katıl

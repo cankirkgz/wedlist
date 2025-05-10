@@ -48,12 +48,6 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
-    CreateRoomRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const CreateRoomScreen(),
-      );
-    },
     ForgotPasswordRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -192,20 +186,6 @@ class ChecklistRouteArgs {
   String toString() {
     return 'ChecklistRouteArgs{key: $key, roomId: $roomId}';
   }
-}
-
-/// generated route for
-/// [CreateRoomScreen]
-class CreateRoomRoute extends PageRouteInfo<void> {
-  const CreateRoomRoute({List<PageRouteInfo>? children})
-      : super(
-          CreateRoomRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CreateRoomRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

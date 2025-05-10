@@ -35,20 +35,32 @@ class RoomCreatedScreen extends StatelessWidget {
               horizontal: AppSizes.paddingXl,
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  'assets/images/done.png',
-                  width: AppSizes.imageSizeMd,
+                // İçerik kaydırılabilir hale getirildi
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/done.png',
+                          width: AppSizes.imageSizeMd,
+                        ),
+                        SizedBox(height: AppSizes.paddingXxl),
+                        ScreenHeader(
+                          title: t.youreAllSet,
+                          subTitle: t.shareCodeWithPartner,
+                        ),
+                        SizedBox(height: AppSizes.paddingXxl),
+                        RoomCodeBox(roomId: roomId),
+                      ],
+                    ),
+                  ),
                 ),
-                SizedBox(height: AppSizes.paddingXxl),
-                ScreenHeader(
-                  title: t.youreAllSet,
-                  subTitle: t.shareCodeWithPartner,
-                ),
-                SizedBox(height: AppSizes.paddingXxl),
-                RoomCodeBox(roomId: roomId), // roomId ile gösterim
-                const Spacer(),
+
+                // Alt sabit buton
                 CustomPrimaryButton(
                   widget: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

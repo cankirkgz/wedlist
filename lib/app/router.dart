@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:wedlist/features/auth/view/auth_screen.dart';
 import 'package:wedlist/features/auth/view/forgot_password_screen.dart';
 import 'package:wedlist/features/auth/view/welcome_screen.dart';
-import 'package:wedlist/features/auth/view/create_room_screen.dart';
 import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 import 'package:wedlist/features/checklist/view/checklist_screen.dart';
 import 'package:wedlist/features/checklist/view/add_edit_item_screen.dart';
@@ -24,7 +23,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: WelcomeRoute.page),
         AutoRoute(page: RoomCreatedRoute.page),
         AutoRoute(page: JoinRoomRoute.page),
-        AutoRoute(page: CreateRoomRoute.page),
         AutoRoute(page: ChecklistRoute.page),
         AutoRoute(page: AddEditItemRoute.page),
         AutoRoute(page: SettingsRoute.page),

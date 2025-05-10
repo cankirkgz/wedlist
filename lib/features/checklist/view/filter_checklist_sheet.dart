@@ -5,6 +5,7 @@ import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/features/checklist/viewmodel/filter_viewmodel.dart';
 import 'package:wedlist/features/shared/components/atoms/custom_primary_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:wedlist/features/checklist/viewmodel/filter_viewmodel.dart';
 
 class FilterChecklistSheet extends ConsumerWidget {
   const FilterChecklistSheet({super.key});
@@ -157,8 +158,9 @@ class FilterChecklistSheet extends ConsumerWidget {
                   child: _buildStatusButton(
                     t.purchased,
                     selected: filter.status == PurchaseStatus.purchased,
-                    onPressed: () =>
-                        filterVM.setStatus(PurchaseStatus.purchased),
+                    onPressed: () {
+                      filterVM.setStatus(PurchaseStatus.purchased);
+                    },
                   ),
                 ),
                 SizedBox(width: AppSizes.paddingMd),
@@ -166,8 +168,9 @@ class FilterChecklistSheet extends ConsumerWidget {
                   child: _buildStatusButton(
                     t.notPurchased,
                     selected: filter.status == PurchaseStatus.notPurchased,
-                    onPressed: () =>
-                        filterVM.setStatus(PurchaseStatus.notPurchased),
+                    onPressed: () {
+                      filterVM.setStatus(PurchaseStatus.notPurchased);
+                    },
                   ),
                 ),
               ],
@@ -188,7 +191,6 @@ class FilterChecklistSheet extends ConsumerWidget {
               text: t.applyFilter,
               hasShadow: false,
               onTap: () {
-                filterVM.applyFilters();
                 Navigator.pop(context);
               },
             ),

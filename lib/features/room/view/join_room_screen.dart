@@ -25,7 +25,6 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -52,59 +51,63 @@ class _JoinRoomScreenState extends ConsumerState<JoinRoomScreen> {
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              top: kToolbarHeight + AppSizes.paddingLg,
-              left: AppSizes.paddingXl,
-              right: AppSizes.paddingXl,
-              bottom: mediaQuery.viewInsets.bottom + AppSizes.paddingLg,
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: mediaQuery.size.height - kToolbarHeight,
-              ),
-              child: IntrinsicHeight(
-                child: Column(
-                  children: [
-                    SizedBox(height: AppSizes.paddingXxl),
-                    Text(
-                      t.enterRoomCode,
-                      style: GoogleFonts.inter(
-                        fontSize: AppSizes.fontXl,
-                        color: AppColors.textBlack,
-                      ),
-                      textAlign: TextAlign.center,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.paddingXl),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Üst içerik: kaydırılabilir
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(height: AppSizes.paddingXl),
+                        Text(
+                          t.enterRoomCode,
+                          style: GoogleFonts.inter(
+                            fontSize: AppSizes.fontXl,
+                            color: AppColors.textBlack,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: AppSizes.paddingXxl),
+                        AppSquareImage(
+                          imagePath: 'assets/images/contact.png',
+                          width: AppSizes.imageSizeXs,
+                          height: AppSizes.imageSizeXs,
+                        ),
+                        SizedBox(height: AppSizes.paddingXl),
+                        RoomCodeInput(
+                          length: 6,
+                          onChanged: (code) =>
+                              setState(() => _enteredCode = code),
+                          onCompleted: (code) =>
+                              setState(() => _enteredCode = code),
+                        ),
+                        // İsterseniz burada ekstra boşluk bırakabilirsiniz:
+                        SizedBox(height: AppSizes.paddingXxl),
+                      ],
                     ),
-                    SizedBox(height: AppSizes.paddingXxl),
-                    AppSquareImage(
-                      imagePath: 'assets/images/contact.png',
-                      width: AppSizes.imageSizeLg,
-                      height: AppSizes.imageSizeLg,
-                    ),
-                    SizedBox(height: AppSizes.paddingXxl),
-                    RoomCodeInput(
-                      length: 6,
-                      onChanged: (code) => setState(() => _enteredCode = code),
-                      onCompleted: (code) =>
-                          setState(() => _enteredCode = code),
-                    ),
-                    const Spacer(),
-                    CustomPrimaryButton(
-                      text: t.joinRoom,
-                      onTap: () async {
-                        final joined = await ref
-                            .read(roomProvider.notifier)
-                            .joinRoom(_enteredCode, context);
-                        if (!joined) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(t.roomNotFound)),
-                          );
-                        }
-                      },
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+
+                // Alt sabit buton
+                CustomPrimaryButton(
+                  text: t.joinRoom,
+                  onTap: () async {
+                    final joined = await ref
+                        .read(roomProvider.notifier)
+                        .joinRoom(_enteredCode, context);
+                    if (!joined) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(t.roomNotFound)),
+                      );
+                    }
+                  },
+                ),
+                SizedBox(height: AppSizes.paddingLg),
+              ],
             ),
           ),
         ),

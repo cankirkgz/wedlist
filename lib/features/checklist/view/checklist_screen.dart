@@ -9,6 +9,7 @@ import 'package:wedlist/data/providers/auth_provider.dart';
 import 'package:wedlist/data/providers/checklist_provider.dart';
 import 'package:wedlist/data/providers/filtered_checklist_provider.dart';
 import 'package:wedlist/data/providers/room_provider.dart';
+import 'package:wedlist/data/providers/search_query_provider.dart';
 import 'package:wedlist/features/shared/components/atoms/filter_button.dart';
 import 'package:wedlist/features/shared/components/atoms/search_items.dart';
 import 'package:wedlist/features/shared/components/molecules/custom_gradient_progress_bar.dart';
@@ -69,10 +70,15 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
 
-    final authVM = ref.read(authProvider.notifier);
-    final roomAsync = ref.watch(roomProvider); // 🔄 roomFutureProvider yerine
-    final checklistVM = ref.read(checklistProvider.notifier);
+    final authVM = ref.watch(authProvider.notifier);
+    final roomAsync = ref.watch(roomProvider);
+    final checklistVM = ref.watch(checklistProvider.notifier);
     final items = ref.watch(filteredChecklistProvider);
+    final searchQuery = ref.watch(searchQueryProvider);
+
+    roomAsync.whenData((room) {
+      if (room != null) checklistVM.setRoomCode(widget.roomId);
+    });
 
     final spent = checklistVM.spentTotal;
     final remaining = checklistVM.remainingTotal;
@@ -192,7 +198,11 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
                             Expanded(
                               child: SearchItems(
                                 controller: _controller,
-                                onChanged: checklistVM.setSearchQuery,
+                                onChanged: (q) {
+                                  // her karakterde searchQueryProvider güncellensin
+                                  ref.read(searchQueryProvider.notifier).state =
+                                      q;
+                                },
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -255,11 +265,13 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
           child: const Icon(Icons.add, color: AppColors.white, size: 32),
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        height: _bannerAd.size.height.toDouble(),
-        width: _bannerAd.size.width.toDouble(),
-        child: AdWidget(ad: _bannerAd),
-      ),
+      bottomNavigationBar: _bannerAd.responseInfo == null
+          ? const SizedBox.shrink()
+          : SizedBox(
+              width: _bannerAd.size.width.toDouble(),
+              height: _bannerAd.size.height.toDouble(),
+              child: AdWidget(ad: _bannerAd),
+            ),
     );
   }
 }
