@@ -27,8 +27,26 @@ class ItemCard extends StatelessWidget {
     required this.onCheckToggle,
   });
 
+  String _getCurrencySymbol(String languageCode) {
+    switch (languageCode) {
+      case 'tr':
+        return '₺';
+      case 'en':
+        return '\$';
+      case 'de':
+        return '€';
+      case 'ru':
+        return '₽';
+      default:
+        return '\$';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final languageCode = Localizations.localeOf(context).languageCode;
+    final currencySymbol = _getCurrencySymbol(languageCode);
+
     return Slidable(
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
@@ -137,7 +155,7 @@ class ItemCard extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               Text(
-                '₺${price.toStringAsFixed(0)}',
+                '$currencySymbol${price.toStringAsFixed(0)}',
                 style: TextStyle(
                   color: AppColors.primaryText,
                   fontWeight: FontWeight.bold,

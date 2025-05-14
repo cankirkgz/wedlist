@@ -7,18 +7,22 @@ class SettingsCard extends StatelessWidget {
   final Widget child;
   final String title;
 
-  const SettingsCard({super.key, required this.child, required this.title});
+  const SettingsCard({
+    super.key,
+    required this.child,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 0,
+      elevation: AppSizes.elevationLow,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLg),
       ),
       color: AppColors.white,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: AppSizes.paddingAllLg,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -30,7 +34,7 @@ class SettingsCard extends StatelessWidget {
                 fontWeight: AppSizes.weightBold,
               ),
             ),
-            SizedBox(height: AppSizes.paddingMd),
+            AppSizes.gap16,
             child,
           ],
         ),

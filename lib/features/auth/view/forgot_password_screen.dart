@@ -22,6 +22,7 @@ class ForgotPasswordScreen extends ConsumerWidget {
     final t = AppLocalizations.of(context)!;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -31,92 +32,95 @@ class ForgotPasswordScreen extends ConsumerWidget {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: AppSizes.paddingLg,
-              horizontal: AppSizes.paddingXl,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                AppTitleText(text: t.appTitle),
-                SizedBox(height: AppSizes.paddingXxl),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: InkWell(
-                    onTap: () {
-                      context.router.back();
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.arrow_back),
-                        SizedBox(width: AppSizes.paddingSm),
-                        Text(
-                          t.backToLogin,
-                          style: GoogleFonts.inter(
-                            fontSize: AppSizes.fontLg,
-                            color: AppColors.textBlack,
-                          ),
-                        )
-                      ],
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: AppSizes.paddingLg,
+                horizontal: AppSizes.paddingXl,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AppTitleText(text: t.appTitle),
+                  SizedBox(height: AppSizes.paddingXxl),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: InkWell(
+                      onTap: () {
+                        context.router.back();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.arrow_back),
+                          SizedBox(width: AppSizes.paddingSm),
+                          Text(
+                            t.backToLogin,
+                            style: GoogleFonts.inter(
+                              fontSize: AppSizes.fontLg,
+                              color: AppColors.textBlack,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: AppSizes.paddingLg),
-                Text(
-                  t.resetPasswordTitle,
-                  style: GoogleFonts.inter(
-                    fontSize: AppSizes.fontHuge,
-                    fontWeight: AppSizes.weightBold,
-                    color: AppColors.textBlack,
+                  SizedBox(height: AppSizes.paddingLg),
+                  Text(
+                    t.resetPasswordTitle,
+                    style: GoogleFonts.inter(
+                      fontSize: AppSizes.fontHuge,
+                      fontWeight: AppSizes.weightBold,
+                      color: AppColors.textBlack,
+                    ),
                   ),
-                ),
-                SizedBox(height: AppSizes.paddingXs),
-                Text(
-                  t.resetPasswordDescription,
-                  style: GoogleFonts.inter(
-                    fontSize: AppSizes.fontLg,
-                    color: AppColors.textBlack,
+                  SizedBox(height: AppSizes.paddingXs),
+                  Text(
+                    t.resetPasswordDescription,
+                    style: GoogleFonts.inter(
+                      fontSize: AppSizes.fontLg,
+                      color: AppColors.textBlack,
+                    ),
+                    textAlign: TextAlign.start,
                   ),
-                  textAlign: TextAlign.start,
-                ),
-                SizedBox(height: AppSizes.paddingXl),
-                LabeledTextField(
-                  label: t.email,
-                  hintText: t.enterYourEmail,
-                  controller: _emailController,
-                ),
-                SizedBox(height: AppSizes.paddingXl),
-                CustomPrimaryButton(
-                  text: t.resetPasswordButton,
-                  onTap: () async {
-                    final email = _emailController.text.trim();
+                  SizedBox(height: AppSizes.paddingXl),
+                  LabeledTextField(
+                    label: t.email,
+                    hintText: t.enterYourEmail,
+                    controller: _emailController,
+                  ),
+                  SizedBox(height: AppSizes.paddingXl),
+                  CustomPrimaryButton(
+                    text: t.resetPasswordButton,
+                    onTap: () async {
+                      final email = _emailController.text.trim();
 
-                    if (email.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(t.emailRequired)),
-                      );
-                      return;
-                    }
-                    await authVM.resetPassword(email);
-                    if (authState.error != null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(authState.error!)),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(t.resetEmailSent),
-                        ),
-                      );
-                      context.router.back(); // Giriş ekranına geri döner
-                    }
-                  },
-                ),
-              ],
+                      if (email.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(t.emailRequired)),
+                        );
+                        return;
+                      }
+                      await authVM.resetPassword(email);
+                      if (authState.error != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(authState.error!)),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(t.resetEmailSent),
+                          ),
+                        );
+                        context.router.back(); // Giriş ekranına geri döner
+                      }
+                    },
+                  ),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                ],
+              ),
             ),
           ),
         ),

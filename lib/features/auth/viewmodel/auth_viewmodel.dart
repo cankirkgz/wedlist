@@ -55,6 +55,29 @@ class AuthViewModel extends StateNotifier<AuthState> {
             code: 'not-found', message: 'Kullanıcı verisi bulunamadı');
       }
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        // Kullanıcı bulunamadıysa veya şifre yanlışsa, Google ile giriş yapmayı dene
+        try {
+          final googleCredential = await _authService.signInWithGoogle();
+          if (googleCredential != null) {
+            final googleUser = googleCredential.user!;
+            if (googleUser.email == email) {
+              // Google hesabı ile e-posta eşleşiyorsa, hesapları birleştir
+              await googleUser.linkWithCredential(
+                EmailAuthProvider.credential(email: email, password: password),
+              );
+              final userModel = await _firestoreService.getUser(googleUser.uid);
+              if (userModel != null) {
+                state = state.copyWith(user: userModel, isLoading: false);
+                await handlePostLoginRouting(context);
+                return userModel;
+              }
+            }
+          }
+        } catch (googleError) {
+          print('Google ile giriş hatası: $googleError');
+        }
+      }
       state = state.copyWith(isLoading: false, error: e.message);
       return null;
     }

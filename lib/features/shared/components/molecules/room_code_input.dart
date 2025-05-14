@@ -3,15 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 
-/// Molecule: oda kodu girme alanı
 class RoomCodeInput extends StatefulWidget {
-  /// Kaç haneli kod girilecek
   final int length;
 
-  /// Kod tamamlandığında tetiklenir
   final ValueChanged<String>? onCompleted;
 
-  /// Her değişiklikte tetiklenir
   final ValueChanged<String>? onChanged;
 
   const RoomCodeInput({
@@ -35,7 +31,6 @@ class _RoomCodeInputState extends State<RoomCodeInput> {
     super.initState();
     _focusNodes = List.generate(widget.length, (_) => FocusNode());
     _controllers = List.generate(widget.length, (_) => TextEditingController());
-    // İlk kutuya odaklan
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_focusNodes.isNotEmpty) _focusNodes[0].requestFocus();
     });

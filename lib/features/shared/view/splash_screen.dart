@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wedlist/app/router.dart';
+import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/data/providers/auth_provider.dart';
 
 @RoutePage()
@@ -33,8 +34,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+    return Scaffold(
+      body: Center(
+        child: SizedBox(
+          width: AppSizes.imageSizeMd,
+          height: AppSizes.imageSizeMd,
+          child: Image.asset("assets/icons/logo.png"),
+        ),
+      ),
     );
   }
 }

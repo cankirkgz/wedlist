@@ -24,10 +24,32 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    return await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      // Önce mevcut oturumu kapat
+      await _auth.signOut();
+
+      // Yeni giriş denemesi yap
+      return await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        // Google ile giriş yapmayı dene
+        final googleCredential = await signInWithGoogle();
+        if (googleCredential != null) {
+          final googleUser = googleCredential.user!;
+          if (googleUser.email == email) {
+            // Google hesabı ile e-posta eşleşiyorsa, hesapları birleştir
+            await googleUser.linkWithCredential(
+              EmailAuthProvider.credential(email: email, password: password),
+            );
+            return googleCredential;
+          }
+        }
+      }
+      rethrow;
+    }
   }
 
   // 📩 E-posta Doğrulama Gönder

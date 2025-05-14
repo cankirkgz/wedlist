@@ -9,6 +9,8 @@ class ChecklistItem {
   final bool isPurchased;
   final String createdBy;
   final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool isSynced;
 
   ChecklistItem({
     required this.id,
@@ -19,17 +21,12 @@ class ChecklistItem {
     required this.isPurchased,
     required this.createdBy,
     required this.createdAt,
+    required this.updatedAt,
+    required this.isSynced,
   });
 
   factory ChecklistItem.fromMap(String id, Map<String, dynamic> map) {
     final isPurchasedValue = map['isPurchased'];
-    print("Model dönüşümü - ID: $id");
-    print("Ham isPurchased değeri: $isPurchasedValue");
-    print("Ham isPurchased tipi: ${isPurchasedValue.runtimeType}");
-
-    final isPurchased = isPurchasedValue == true;
-    print("Dönüştürülmüş isPurchased değeri: $isPurchased");
-    print("-------------------");
 
     return ChecklistItem(
       id: id,
@@ -37,9 +34,11 @@ class ChecklistItem {
       category: map['category'] as String? ?? '',
       priority: map['priority'] as int? ?? 1,
       price: (map['price'] as num?)?.toDouble(),
-      isPurchased: isPurchased,
+      isPurchased: isPurchasedValue == true,
       createdBy: map['createdBy'] as String? ?? '',
       createdAt: (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      updatedAt: (map['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      isSynced: map['isSynced'] as bool? ?? true,
     );
   }
 
@@ -52,6 +51,8 @@ class ChecklistItem {
       'isPurchased': isPurchased,
       'createdBy': createdBy,
       'createdAt': Timestamp.fromDate(createdAt),
+      'updatedAt': Timestamp.fromDate(updatedAt),
+      'isSynced': isSynced,
     };
   }
 
@@ -64,6 +65,8 @@ class ChecklistItem {
     bool? isPurchased,
     String? createdBy,
     DateTime? createdAt,
+    DateTime? updatedAt,
+    bool? isSynced,
   }) {
     return ChecklistItem(
       id: id ?? this.id,
@@ -74,6 +77,8 @@ class ChecklistItem {
       isPurchased: isPurchased ?? this.isPurchased,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      isSynced: isSynced ?? this.isSynced,
     );
   }
 }

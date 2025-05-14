@@ -65,6 +65,7 @@ class AppSizes {
   static SizedBox get gap8 => SizedBox(width: 8.w, height: 8.h);
   static SizedBox get gap12 => SizedBox(width: 12.w, height: 12.h);
   static SizedBox get gap16 => SizedBox(width: 16.w, height: 16.h);
+  static SizedBox get gap20 => SizedBox(width: 20.w, height: 20.h);
   static SizedBox get gap24 => SizedBox(width: 24.w, height: 24.h);
   static SizedBox get gap32 => SizedBox(width: 32.w, height: 32.h);
 

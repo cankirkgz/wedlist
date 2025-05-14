@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class AddEditItemViewModel extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
@@ -11,7 +12,8 @@ class AddEditItemViewModel extends ChangeNotifier {
   String? selectedCategory;
   int priority = 3;
 
-  // Lokalize kategori listesi (UI'da gösterim için)
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   List<String> getCategoryList(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return [
@@ -29,15 +31,17 @@ class AddEditItemViewModel extends ChangeNotifier {
     ];
   }
 
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Future<void> saveItem(BuildContext context, String roomId, String createdBy,
-      {String? existingItemId}) async {
+  Future<void> saveItem(
+    BuildContext context,
+    String roomId,
+    String createdBy, {
+    String? existingItemId,
+    DateTime? originalCreatedAt,
+    required Function(ChecklistItem item) onLocalSave,
+  }) async {
     final t = AppLocalizations.of(context)!;
 
-    if (roomId.isEmpty) {
-      throw Exception(t.invalidRoomId);
-    }
+    if (roomId.isEmpty) throw Exception(t.invalidRoomId);
 
     final name = nameController.text.trim();
     final double? price = double.tryParse(priceController.text.trim());
@@ -47,6 +51,8 @@ class AddEditItemViewModel extends ChangeNotifier {
       throw Exception(t.pleaseFillRequiredFields);
     }
 
+    final now = DateTime.now();
+
     final ChecklistItem item = ChecklistItem(
       id: existingItemId ?? '',
       name: name,
@@ -55,16 +61,30 @@ class AddEditItemViewModel extends ChangeNotifier {
       price: price,
       isPurchased: isPurchased,
       createdBy: createdBy,
-      createdAt: DateTime.now(),
+      createdAt: originalCreatedAt ?? now,
+      updatedAt: now,
+      isSynced: false,
     );
 
-    final itemRef =
-        _firestore.collection('rooms').doc(roomId).collection('items');
+    // Önce local kaydet (local veritabanı kodu dışarıdan onLocalSave fonksiyonuyla gelecektir)
+    onLocalSave(item);
 
-    if (existingItemId != null) {
-      await itemRef.doc(existingItemId).update(item.toMap());
-    } else {
-      await itemRef.add(item.toMap());
+    final connectivity = await Connectivity().checkConnectivity();
+
+    if (connectivity != ConnectivityResult.none) {
+      final itemRef =
+          _firestore.collection('rooms').doc(roomId).collection('items');
+
+      if (existingItemId != null) {
+        await itemRef.doc(existingItemId).update(item
+            .copyWith(isSynced: true)
+            .toMap()); // Senkronize olarak işaretle
+      } else {
+        final docRef = await itemRef.add(
+          item.copyWith(isSynced: true).toMap(),
+        );
+        // Yeni ID'yi local'e yansıtmak istersen burada docRef.id'yi kullanabilirsin
+      }
     }
   }
 

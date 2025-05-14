@@ -31,6 +31,21 @@ class AddEditItemScreen extends ConsumerStatefulWidget {
 }
 
 class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
+  IconData _getCurrencyIcon(String languageCode) {
+    switch (languageCode) {
+      case 'tr':
+        return Icons.currency_lira;
+      case 'en':
+        return Icons.attach_money;
+      case 'de':
+        return Icons.euro;
+      case 'ru':
+        return Icons.currency_ruble;
+      default:
+        return Icons.attach_money;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -58,7 +73,14 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
         widget.roomId,
         userId,
         existingItemId: widget.item?.id,
+        originalCreatedAt: widget.item?.createdAt,
+        onLocalSave: (item) async {
+          // TODO: Gerçek local servisi burada çağır
+          // await ref.read(localItemServiceProvider).saveItem(item);
+          debugPrint('[localSave] ${item.name} kaydedildi.');
+        },
       );
+
       context.router.back();
     } catch (e) {
       _showError(e.toString().replaceAll(t.exceptionLabel, ''));
@@ -79,6 +101,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
     final viewModel = ref.watch(addEditItemViewModelProvider);
     final t = AppLocalizations.of(context)!;
     final categories = viewModel.getCategoryList(context);
+    final languageCode = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       appBar: AppBar(
@@ -127,7 +150,7 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
                   label: t.priceOptional,
                   hintText: t.priceExample,
                   controller: viewModel.priceController,
-                  prefixIcon: Icons.currency_lira,
+                  prefixIcon: _getCurrencyIcon(languageCode),
                   keyboardType: TextInputType.number,
                 ),
                 SizedBox(height: AppSizes.paddingXl),
