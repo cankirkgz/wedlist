@@ -64,6 +64,7 @@ class AddEditItemViewModel extends ChangeNotifier {
       createdAt: originalCreatedAt ?? now,
       updatedAt: now,
       isSynced: false,
+      roomCode: roomId,
     );
 
     // Önce local kaydet (local veritabanı kodu dışarıdan onLocalSave fonksiyonuyla gelecektir)

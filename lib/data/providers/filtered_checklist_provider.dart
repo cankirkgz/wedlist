@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedlist/data/providers/checklist_provider.dart';
 import 'package:wedlist/data/providers/search_query_provider.dart';
 import 'package:wedlist/features/checklist/viewmodel/filter_viewmodel.dart';
 import 'package:wedlist/features/checklist/model/checklist_item_model.dart';
 
-/// Tüm öğeleri + filtre durumunu + arama sorgusunu bir arada süzerek döner
+/// Filtreleme ve arama işlemlerini bir arada yaparak sonuç döner
 final filteredChecklistProvider = Provider<List<ChecklistItem>>((ref) {
   final asyncItems = ref.watch(checklistProvider);
   final filter = ref.watch(filterProvider);
@@ -12,53 +13,27 @@ final filteredChecklistProvider = Provider<List<ChecklistItem>>((ref) {
 
   return asyncItems.when(
     data: (items) {
-      print('Filtreleme başlıyor...');
-      print('Toplam item sayısı: ${items.length}');
-      print('Seçili kategori: ${filter.selectedCategory}');
-      print('Seçili öncelik: ${filter.selectedPriority}');
-      print('Seçili durum: ${filter.status}');
-      print('Arama sorgusu: $query');
+      final result = items.where((item) {
+        final matchesCategory = filter.selectedCategory?.isEmpty != false ||
+            item.category == filter.selectedCategory;
 
-      // Önce tüm itemları kopyala ve sıralamayı koru
-      final filtered = List<ChecklistItem>.from(items);
+        final matchesPriority = filter.selectedPriority == null ||
+            item.priority == filter.selectedPriority;
 
-      // Filtreleme işlemlerini uygula
-      final result = filtered.where((item) {
-        // 1. Kategori filtresi
-        if (filter.selectedCategory?.isNotEmpty == true &&
-            item.category != filter.selectedCategory) {
-          return false;
-        }
+        final matchesStatus = filter.status == PurchaseStatus.all ||
+            (filter.status == PurchaseStatus.purchased && item.isPurchased) ||
+            (filter.status == PurchaseStatus.notPurchased && !item.isPurchased);
 
-        // 2. Öncelik filtresi
-        if (filter.selectedPriority != null &&
-            item.priority != filter.selectedPriority) {
-          return false;
-        }
+        final matchesQuery =
+            query.isEmpty || item.name.toLowerCase().contains(query);
 
-        // 3. Satın alma durumu filtresi
-        if (filter.status == PurchaseStatus.purchased && !item.isPurchased) {
-          return false;
-        }
-        if (filter.status == PurchaseStatus.notPurchased && item.isPurchased) {
-          return false;
-        }
-
-        // 4. Arama filtresi
-        if (query.isNotEmpty && !item.name.toLowerCase().contains(query)) {
-          return false;
-        }
-
-        return true;
+        return matchesCategory &&
+            matchesPriority &&
+            matchesStatus &&
+            matchesQuery;
       }).toList();
 
-      print('Filtreleme sonrası item sayısı: ${result.length}');
-      print('Filtrelenen itemlar:');
-      for (var item in result) {
-        print('${item.name} - isPurchased: ${item.isPurchased}');
-      }
-
-      // Filtreleme sonrası sıralamayı koru
+      // Satın alınmamış olanlar üstte, sonra tarihe göre sırala
       result.sort((a, b) {
         if (a.isPurchased == b.isPurchased) {
           return a.createdAt.compareTo(b.createdAt);
@@ -66,11 +41,17 @@ final filteredChecklistProvider = Provider<List<ChecklistItem>>((ref) {
         return a.isPurchased ? 1 : -1;
       });
 
+      if (kDebugMode) {
+        print('📋 Filtreleme tamamlandı: ${result.length} item bulundu');
+      }
+
       return result;
     },
     loading: () => [],
     error: (e, _) {
-      print('Filtreleme hatası: $e');
+      if (kDebugMode) {
+        print('❌ Filtreleme hatası: $e');
+      }
       return [];
     },
   );

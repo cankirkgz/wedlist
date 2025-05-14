@@ -1,16 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
 
+part 'checklist_item_model.g.dart';
+
+@HiveType(typeId: 0)
 class ChecklistItem {
+  @HiveField(0)
   final String id;
+
+  @HiveField(1)
   final String name;
+
+  @HiveField(2)
   final String category;
+
+  @HiveField(3)
   final int priority;
+
+  @HiveField(4)
   final double? price;
+
+  @HiveField(5)
   final bool isPurchased;
+
+  @HiveField(6)
   final String createdBy;
+
+  @HiveField(7)
   final DateTime createdAt;
+
+  @HiveField(8)
   final DateTime updatedAt;
+
+  @HiveField(9)
   final bool isSynced;
+
+  @HiveField(10)
+  final String roomCode;
 
   ChecklistItem({
     required this.id,
@@ -23,6 +49,7 @@ class ChecklistItem {
     required this.createdAt,
     required this.updatedAt,
     required this.isSynced,
+    required this.roomCode,
   });
 
   factory ChecklistItem.fromMap(String id, Map<String, dynamic> map) {
@@ -39,6 +66,7 @@ class ChecklistItem {
       createdAt: (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       updatedAt: (map['updatedAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       isSynced: map['isSynced'] as bool? ?? true,
+      roomCode: map['roomCode'] as String? ?? '',
     );
   }
 
@@ -53,6 +81,7 @@ class ChecklistItem {
       'createdAt': Timestamp.fromDate(createdAt),
       'updatedAt': Timestamp.fromDate(updatedAt),
       'isSynced': isSynced,
+      'roomCode': roomCode,
     };
   }
 
@@ -67,6 +96,7 @@ class ChecklistItem {
     DateTime? createdAt,
     DateTime? updatedAt,
     bool? isSynced,
+    String? roomCode,
   }) {
     return ChecklistItem(
       id: id ?? this.id,
@@ -79,6 +109,7 @@ class ChecklistItem {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       isSynced: isSynced ?? this.isSynced,
+      roomCode: roomCode ?? this.roomCode,
     );
   }
 }

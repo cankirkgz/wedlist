@@ -17,6 +17,7 @@ import 'package:wedlist/features/shared/components/molecules/financial_status_ca
 import 'package:wedlist/features/shared/components/molecules/item_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:wedlist/data/providers/sync_service_provider.dart';
 
 @RoutePage()
 class ChecklistScreen extends ConsumerStatefulWidget {
@@ -53,8 +54,12 @@ class _ChecklistScreenState extends ConsumerState<ChecklistScreen> {
       ),
     )..load();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(checklistProvider.notifier).setRoomCode(widget.roomId);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final checklistVM = ref.read(checklistProvider.notifier);
+      checklistVM.setRoomCode(widget.roomId);
+
+      /// 🔄 OFFLINE-TO-ONLINE SYNC BAŞLAT
+      await ref.read(syncServiceProvider).syncUnsyncedItems(widget.roomId);
     });
   }
 

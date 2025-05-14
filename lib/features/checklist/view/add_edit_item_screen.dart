@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wedlist/app/providers.dart';
 import 'package:wedlist/core/constants/app_colors.dart';
 import 'package:wedlist/core/constants/app_sizes.dart';
 import 'package:wedlist/data/providers/add_edit_item_provider.dart';
@@ -67,6 +68,8 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
       return;
     }
 
+    bool isOfflineHandled = false;
+
     try {
       await viewModel.saveItem(
         context,
@@ -75,13 +78,22 @@ class _AddEditItemScreenState extends ConsumerState<AddEditItemScreen> {
         existingItemId: widget.item?.id,
         originalCreatedAt: widget.item?.createdAt,
         onLocalSave: (item) async {
-          // TODO: Gerçek local servisi burada çağır
-          // await ref.read(localItemServiceProvider).saveItem(item);
-          debugPrint('[localSave] ${item.name} kaydedildi.');
+          ref.read(checklistProvider.notifier).addOrUpdateLocalItem(
+                item.copyWith(isSynced: false),
+              );
+
+          // ✅ Eğer offline kayıt yapıldıysa burada sayfayı kapat
+          if (!isOfflineHandled && context.mounted) {
+            context.router.pop();
+            isOfflineHandled = true; // bir daha pop olmasın
+          }
         },
       );
 
-      context.router.back();
+      // ✅ Eğer internet vardıysa (onLocalSave pop etmediyse), burada çık
+      if (!isOfflineHandled && context.mounted) {
+        context.router.pop();
+      }
     } catch (e) {
       _showError(e.toString().replaceAll(t.exceptionLabel, ''));
     }

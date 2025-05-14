@@ -108,4 +108,29 @@ class FirestoreService {
   Future<void> deleteRoom(String roomId) async {
     await _firestore.collection('rooms').doc(roomId).delete();
   }
+
+  // 🔹 Senkronizasyon için yeni item ekler ve doc.id döner
+  Future<String> addItem(String roomId, ChecklistItem item) async {
+    final docRef = await _firestore
+        .collection('rooms')
+        .doc(roomId)
+        .collection('items')
+        .add(item.toMap());
+
+    return docRef.id;
+  }
+
+// 🔹 Mevcut item'ı günceller
+  Future<void> updateItem(String roomId, ChecklistItem item) async {
+    if (item.id.isEmpty) {
+      throw Exception("Güncellenecek item'ın id'si boş olamaz.");
+    }
+
+    await _firestore
+        .collection('rooms')
+        .doc(roomId)
+        .collection('items')
+        .doc(item.id)
+        .update(item.toMap());
+  }
 }
